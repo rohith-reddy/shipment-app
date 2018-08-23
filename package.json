@@ -1,0 +1,25 @@
+{
+  "name": "nextjs",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "latest",
+    "@material-ui/icons": "^2.0.3",
+    "google-map-react": "^1.0.6",
+    "immutable": "^3.8.2",
+    "jss": "latest",
+    "next": "latest",
+    "prop-types": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-jss": "latest",
+    "react-swipeable-views": "^0.12.16",
+    "recharts": "^1.1.0",
+    "turf-random": "^3.0.12"
+  },
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  }
+}

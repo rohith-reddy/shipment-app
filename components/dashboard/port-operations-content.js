@@ -13,6 +13,12 @@ import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import UpIcon from '@material-ui/icons/KeyboardArrowUp';
 import green from '@material-ui/core/colors/green';
+import Divider from '@material-ui/core/Divider';
+
+import CssBaseline from '@material-ui/core/CssBaseline';
+
+import AllocatedTable from './allocated-table';
+import ToBeAllocatedTable from './to-be-allocated-table';
 
 function TabContainer(props) {
   const { children, dir } = props;
@@ -47,13 +53,22 @@ const styles = theme => ({
   },
 });
 
-class FloatingActionButtonZoom extends React.Component {
+class PortOperationsContent extends React.Component {
   state = {
     value: 0,
   };
 
   handleChange = (event, value) => {
     this.setState({ value });
+
+    const mapFiltersToValue = {
+      0: 'container_and_space_management',
+      1: 'berth_allocation',
+      2: 'logistics',
+      3: 'maintenance',
+    };
+
+    this.props.handleSidebarFilterChange(mapFiltersToValue[value]);
   };
 
   handleChangeIndex = index => {
@@ -61,7 +76,7 @@ class FloatingActionButtonZoom extends React.Component {
   };
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, checkedFilters } = this.props;
     const transitionDuration = {
       enter: theme.transitions.duration.enteringScreen,
       exit: theme.transitions.duration.leavingScreen,
@@ -121,12 +136,19 @@ class FloatingActionButtonZoom extends React.Component {
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          <TabContainer dir={theme.direction}>CONTAINER YARD SPACE MANAGEMENT</TabContainer>
-          <TabContainer dir={theme.direction}>BERTH ALLOCATION</TabContainer>
+          <TabContainer onClick={() => console.log('bla')} dir={theme.direction}>CONTAINER YARD SPACE MANAGEMENT</TabContainer>
+          <TabContainer dir={theme.direction}>
+            <React.Fragment>
+              {checkedFilters.indexOf('Allocated') !== -1 && <AllocatedTable />}
+              <CssBaseline />
+              <Divider />
+              {checkedFilters.indexOf('To be allocated') !== -1 && <ToBeAllocatedTable />}
+            </React.Fragment>
+          </TabContainer>
           <TabContainer dir={theme.direction}>LOGISTICS</TabContainer>
           <TabContainer dir={theme.direction}>MAINTENANCE</TabContainer>
         </SwipeableViews>
-        {fabs.map((fab, index) => (
+        {/* {fabs.map((fab, index) => (
           <Zoom
             key={fab.index}
             in={this.state.value === index}
@@ -140,15 +162,16 @@ class FloatingActionButtonZoom extends React.Component {
               {fab.icon}
             </Button>
           </Zoom>
-        ))}
+        ))} */}
       </div>
     );
   }
 }
 
-FloatingActionButtonZoom.propTypes = {
+PortOperationsContent.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
+  handleSidebarFilterChange: PropTypes.func
 };
 
-export default withStyles(styles, { withTheme: true })(FloatingActionButtonZoom);
+export default withStyles(styles, { withTheme: true })(PortOperationsContent);

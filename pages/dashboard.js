@@ -30,6 +30,10 @@ import CraneIcon from '@material-ui/icons/Subway';
 import ContainerIcon from '@material-ui/icons/Store';
 import VesselIcon from '@material-ui/icons/Waves';
 import RailIcon from '@material-ui/icons/DirectionsRailway';
+import FilterIcon from '@material-ui/icons/FilterList';
+
+
+import Notifications from '../components/notification';
 
 import { setInterval } from 'timers';
 
@@ -120,8 +124,10 @@ const styles = theme => ({
 class Dashboard extends React.Component {
   state = {
     open: true,
-    selectedTab: 'container_information_system',
-    notifications: [1]
+    selectedTab: 'port_operations',
+    notifications: [1],
+    currentSidebarFilter: 'port_operations',
+    checkedFilters: ['Allocated', 'To be allocated']
   };
 
   componentDidMount() {
@@ -140,22 +146,114 @@ class Dashboard extends React.Component {
     this.setState({ open: false });
   };
 
+  mapOperationsFilterNode = () => {
+    return (
+      <React.Fragment>
+        <List>{
+          <MainListItems
+            checkedFilters={this.state.checkedFilters}
+            handleToggle={this.handleSidebarFilterToggle}
+            icon={<TruckIcon />}
+            title="TRUCKS"
+            options={[1, 2]}
+            open={true}
+          />
+        }</List>
+        <Divider />
+        <List>{<MainListItems checkedFilters={this.state.checkedFilters} handleToggle={this.handleSidebarFilterToggle} icon={<CraneIcon />} title="CRANES" options={[3, 4]} />}</List>
+        <Divider />
+        <List>{<MainListItems checkedFilters={this.state.checkedFilters} handleToggle={this.handleSidebarFilterToggle} icon={<ContainerIcon />} title="CONTAINER" options={[5, 6]} />}</List>
+        <Divider />
+        <List>{<MainListItems checkedFilters={this.state.checkedFilters} handleToggle={this.handleSidebarFilterToggle} icon={<VesselIcon />} title="VESSEL" options={[7, 8]} />}</List>
+        <Divider />
+        <List>{<MainListItems checkedFilters={this.state.checkedFilters} handleToggle={this.handleSidebarFilterToggle} icon={<RailIcon />} title="RAIL" options={[9, 10]} />}</List>
+      </React.Fragment>
+    )
+  }
+
+  berthAllocationFilterNode = () => {
+    const { checkedFilters } = this.state;
+    return (
+      <React.Fragment>
+        <List>
+          {
+            <MainListItems
+              checkedFilters={this.state.checkedFilters}
+              icon={<FilterIcon />}
+              title="FILTER"
+              options={['Allocated', 'To be allocated']}
+              checkAllFilters
+              open={true}
+              handleToggle={this.handleSidebarFilterToggle}
+            />
+          }
+        </List>
+      </React.Fragment>
+    )
+  }
+
+  handleSidebarFilterChange = (currentSidebarFilter) => {
+    this.setState({
+      currentSidebarFilter
+    });
+  }
+
+  handleSidebarFilterToggle = value => () => {
+    const { checkedFilters } = this.state;
+    const currentIndex = checkedFilters.indexOf(value);
+    const newChecked = [...checkedFilters];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    this.setState({
+      checkedFilters: newChecked,
+    });
+  };
+
+  getFilterNode = (currentSidebarFilter) => {
+    switch (currentSidebarFilter) {
+      case 'container_and_space_management':
+        return this.mapOperationsFilterNode();
+        break;
+      case 'berth_allocation':
+        return this.berthAllocationFilterNode();
+      case 'logistics':
+        return this.mapOperationsFilterNode();
+      case 'maintenance':
+        return this.mapOperationsFilterNode();
+      case 'container_information_system':
+        return this.mapOperationsFilterNode();
+      case 'map_operations':
+        return this.berthAllocationFilterNode();
+      case 'port_operations':
+        return this.berthAllocationFilterNode();
+      case 'transport':
+        return this.berthAllocationFilterNode();
+      default:
+        break;
+    }
+  }
+
   render() {
     const { classes } = this.props;
-    const { notifications, selectedTab } = this.state;
+    const { notifications, selectedTab, currentSidebarFilter, checkedFilters } = this.state;
 
     let content;
 
-    switch(selectedTab) {
+    switch (selectedTab) {
       case 'container_information_system':
-        content = <ContainerInfoSystemContent classes={classes}/>;
+        content = <ContainerInfoSystemContent classes={classes} />;
         break;
       case 'map_operations':
         content = <MapOperations />;
         break;
       case 'port_operations':
-        content = <PortOperationsContent />;
-        break;    
+        content = <PortOperationsContent checkedFilters={checkedFilters} handleSidebarFilterChange={this.handleSidebarFilterChange} />;
+        break;
       case 'transport':
         content = <PortOperationsContent />;
         break;
@@ -191,7 +289,7 @@ class Dashboard extends React.Component {
                     selectedTab === 'container_information_system' && classes.selectedTab || ''
                   )
                 }
-                onClick={() => this.setState({selectedTab: 'container_information_system'})}
+                onClick={() => this.setState({ selectedTab: 'container_information_system' })}
               >
                 CONTAINER INFORMATION SYSTEM
               </Button>
@@ -200,7 +298,7 @@ class Dashboard extends React.Component {
                 className={
                   selectedTab === 'map_operations' && classes.selectedTab || ''
                 }
-                onClick={() => this.setState({selectedTab: 'map_operations'})}
+                onClick={() => this.setState({ selectedTab: 'map_operations' })}
               >
                 MAP OPERATIONS
               </Button>
@@ -209,7 +307,7 @@ class Dashboard extends React.Component {
                 className={
                   selectedTab === 'port_operations' && classes.selectedTab || ''
                 }
-                onClick={() => this.setState({selectedTab: 'port_operations'})}
+                onClick={() => this.setState({ selectedTab: 'port_operations' })}
               >
                 PORT OPERATIONS
               </Button>
@@ -218,7 +316,7 @@ class Dashboard extends React.Component {
                 className={
                   selectedTab === 'transport' && classes.selectedTab || ''
                 }
-                onClick={() => this.setState({selectedTab: 'transport'})}
+                onClick={() => this.setState({ selectedTab: 'transport' })}
               >
                 TRANSPORT
               </Button>
@@ -226,9 +324,10 @@ class Dashboard extends React.Component {
                 <AccountCircle />
               </IconButton>
               <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
+                {/* <Badge badgeContent={4} color="secondary">
                   <NotificationsIcon />
-                </Badge>
+                </Badge> */}
+                <Notifications />
               </IconButton>
             </Toolbar>
           </AppBar>
@@ -245,15 +344,7 @@ class Dashboard extends React.Component {
               </IconButton>
             </div>
             <Divider />
-            <List>{<MainListItems icon={<TruckIcon />} title="TRUCKS" options={[1,2]} open={true}/>}</List>
-            <Divider />
-            <List>{<MainListItems icon={<CraneIcon />} title="CRANES" options={[3,4]}/>}</List>
-            <Divider />
-            <List>{<MainListItems icon={<ContainerIcon />} title="CONTAINER" options={[5,6]}/>}</List>
-            <Divider />
-            <List>{<MainListItems icon={<VesselIcon />} title="VESSEL" options={[7,8]}/>}</List>
-            <Divider />
-            <List>{<MainListItems icon={<RailIcon />} title="RAIL" options={[9,10]}/>}</List>
+            {this.getFilterNode(currentSidebarFilter)}
           </Drawer>
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
@@ -278,7 +369,7 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const ContainerInfoSystemContent = ({classes}) => (
+const ContainerInfoSystemContent = ({ classes }) => (
   <React.Fragment>
     <Typography variant="display1" gutterBottom>
       Orders

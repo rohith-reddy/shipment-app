@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
@@ -26,33 +26,33 @@ const styles = theme => ({
 });
 
 class NestedList extends React.Component {
-  state = {
-    open: this.props.open || false,
-    checked: []
-  };
+  constructor(props) {
+    super(props);
+
+    console.log('ro', props)
+
+    this.state = {
+      open: props.open || false,
+    }
+  }
+
+  // componentWillReceiveProps = (nextProps) => {
+  //   console.log('props', nextProps.checkAllFilters)
+  //   console.log('props', this.props.options[0])
+  //   if (nextProps.checkAllFilters && nextProps.options[0] !== this.props.options[0]) {
+  //     console.log('came')
+  //     this.setState({
+  //       checked: nextProps.options
+  //     })
+  //   }
+  // }
 
   handleClick = () => {
     this.setState(state => ({ open: !state.open }));
   };
 
-  handleToggle = value => () => {
-    const { checked } = this.state;
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    this.setState({
-      checked: newChecked,
-    });
-  };
-
   render() {
-    const { title, options, classes, icon } = this.props;
+    const { title, options, classes, icon, checkedFilters } = this.props;
 
     return (
       <div className={classes.root}>
@@ -72,15 +72,15 @@ class NestedList extends React.Component {
               role={undefined}
               dense
               button
-              onClick={this.handleToggle(value)}
+              onClick={this.props.handleToggle(value)}
               className={classes.listItem}
             >
               <Checkbox
-                checked={this.state.checked.indexOf(value) !== -1}
+                checked={checkedFilters.indexOf(value) !== -1}
                 tabIndex={-1}
                 disableRipple
               />
-              <ListItemText primary={`Line item ${value + 1}`} />
+              <ListItemText primary={value} />
             </ListItem>
           ))}
         </List>
@@ -91,8 +91,8 @@ class NestedList extends React.Component {
   }
 }
 
-// NestedList.propTypes = {
-//   classes: PropTypes.object.isRequired,
-// };
+NestedList.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 export default withStyles(styles)(NestedList);

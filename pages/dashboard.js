@@ -267,7 +267,7 @@ class Dashboard extends React.Component {
               checkedFilters={this.state.checkedFilters}
               icon={<FilterIcon />}
               title="FILTER"
-              options={['Trucks', 'Cranes']}
+              options={['Cranes', 'Trailers']}
               checkAllFilters
               open={true}
               handleToggle={this.handleSidebarFilterToggle}

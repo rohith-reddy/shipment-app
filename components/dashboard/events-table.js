@@ -20,9 +20,9 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 
 let counter = 0;
-function createData(event, status) {
+function createData(timestamp, event, status) {
   counter += 1;
-  return { id: counter, event, status };
+  return { id: counter, timestamp, event, status };
 }
 
 
@@ -57,7 +57,7 @@ class EventsTableHead extends React.Component {
     return (
       <TableHead>
         <TableRow>
-          <TableCell>
+          <TableCell padding="checkbox">
             {/* <Checkbox
               indeterminate={numSelected > 0 && numSelected < rowCount}
               checked={numSelected === rowCount}
@@ -160,7 +160,7 @@ let EventsTableToolbar = props => {
               <DeleteIcon />
             </IconButton>
           </Tooltip>
-        ) : <div className={classes.lastUpdated}>Last Updated at :- 02-Jan-2018 14:00:00</div>}
+        ) : null}
       </div>
     </Toolbar>
   );
@@ -191,11 +191,11 @@ class ToBeAllocatedTable extends React.Component {
     orderBy: 'timestamp',
     selected: [],
     data: [
-      createData('Event1', 'Pending'),
-      createData('Event2', 'Pending'),
-      createData('Event3', 'Pending'),
-      createData('Event6', 'Pending'),
-      createData('Event5', 'Completed'),
+      createData('Timestamp1', 'Event1', 'Pending'),
+      createData('Timestamp2', 'Event2', 'Pending'),
+      createData('Timestamp3', 'Event3', 'Pending'),
+      createData('Timestamp4', 'Event6', 'Pending'),
+      createData('Timestamp5', 'Event5', 'Completed'),
     ],
     page: 0,
     rowsPerPage: 5,
@@ -285,9 +285,12 @@ class ToBeAllocatedTable extends React.Component {
                       key={n.id}
                       selected={isSelected}
                     >
-                      <TableCell>
+                      <TableCell padding="checkbox">
                         {/* <Checkbox checked={isSelected} /> */}
                         {n.id}
+                      </TableCell>
+                      <TableCell component="th" scope="row">
+                        {n.timestamp}
                       </TableCell>
                       <TableCell>{n.event}</TableCell>
                       <TableCell>{n.status}</TableCell>

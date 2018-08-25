@@ -123,6 +123,9 @@ const toolbarStyles = theme => ({
   actions: {
     color: theme.palette.text.secondary,
   },
+  lastUpdated: {
+      minWidth: 200,
+  },
   title: {
     flex: '0 0 auto',
   },
@@ -156,7 +159,7 @@ let EventsTableToolbar = props => {
               <DeleteIcon />
             </IconButton>
           </Tooltip>
-        ) : null}
+        ) : <span className="lastUpdated">Last Updated at :- 02-Jan-2018 14:00:00</span>}
       </div>
     </Toolbar>
   );

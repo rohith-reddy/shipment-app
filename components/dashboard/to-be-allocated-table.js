@@ -127,8 +127,10 @@ const toolbarStyles = theme => ({
     flex: '1 1 100%',
   },
   actions: {
-    minWidth: 250,
     color: theme.palette.text.secondary,
+  },
+  lastUpdated: {
+      minWidth: 250,
   },
   title: {
     flex: '0 0 auto',
@@ -163,7 +165,7 @@ let ToBeAllocatedToolbar = props => {
               <DeleteIcon />
             </IconButton>
           </Tooltip>
-        ) : "Last Updated at :- 02-Jan-2018 14:00:00"}
+        ) : <span className="lastUpdated">Last Updated at :- 02-Jan-2018 14:00:00</span>}
       </div>
     </Toolbar>
   );

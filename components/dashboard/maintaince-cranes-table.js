@@ -20,9 +20,9 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 
 let counter = 0;
-function createData(event, status) {
+function createData(craneNumber, manufacturer, craneType, maintainceTime, upTime, action, remarks) {
   counter += 1;
-  return { id: counter, event, status };
+  return { id: counter, craneNumber, manufacturer, craneType, maintainceTime, upTime, action, remarks };
 }
 
 
@@ -41,9 +41,13 @@ function getSorting(order, orderBy) {
 }
 
 const rows = [
-  { id: 'time stamp', numeric: false, disablePadding: false, label: 'Time stamp' },
-  { id: 'Events', numeric: false, disablePadding: false, label: 'Events' },
-  { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
+  { id: 'time stamp', numeric: false, disablePadding: false, label: 'Crane number' },
+  { id: 'Events', numeric: false, disablePadding: false, label: 'Manufacturer' },
+  { id: '3', numeric: false, disablePadding: false, label: 'Type' },
+  { id: '4', numeric: false, disablePadding: false, label: 'Est. maintaince time' },
+  { id: '6', numeric: false, disablePadding: false, label: 'Up time' },
+  { id: '5', numeric: false, disablePadding: false, label: 'Actions Required' },
+  { id: '8', numeric: false, disablePadding: false, label: 'Remarks' },
 ];
 
 class EventsTableHead extends React.Component {
@@ -188,14 +192,15 @@ const styles = theme => ({
 class ToBeAllocatedTable extends React.Component {
   state = {
     order: 'asc',
-    orderBy: 'timestamp',
+    orderBy: 'name',
     selected: [],
     data: [
-      createData('Event1', 'Pending'),
-      createData('Event2', 'Pending'),
-      createData('Event3', 'Pending'),
-      createData('Event6', 'Pending'),
-      createData('Event5', 'Completed'),
+      createData(1,2,3,4,5,6,7,8),
+      createData(1,2,3,4,5,6,7,8),
+      createData(1,2,3,4,5,6,7,8),
+      createData(1,2,3,4,5,6,7,8),
+      createData(1,2,3,4,5,6,7,8),
+      createData(1,2,3,4,5,6,7,8),
     ],
     page: 0,
     rowsPerPage: 5,
@@ -290,10 +295,14 @@ class ToBeAllocatedTable extends React.Component {
                         {n.id}
                       </TableCell>
                       <TableCell component="th" scope="row">
-                        {n.timestamp}
+                        {n.craneNumber}
                       </TableCell>
-                      <TableCell>{n.event}</TableCell>
-                      <TableCell>{n.status}</TableCell>
+                      <TableCell>{n.manufacturer}</TableCell>
+                      <TableCell>{n.craneType}</TableCell>
+                      <TableCell>{n.maintainceTime}</TableCell>
+                      <TableCell>{n.upTime}</TableCell>
+                      <TableCell>{n.action}</TableCell>
+                      <TableCell>{n.remarks}</TableCell>
                     </TableRow>
                   );
                 })}

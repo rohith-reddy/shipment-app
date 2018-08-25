@@ -20,6 +20,11 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import AllocatedTable from './allocated-table';
 import ToBeAllocatedTable from './to-be-allocated-table';
 
+import MaintainceAllocatedTable from './maintaince-trailers-table';
+import MaintainceToBeAllocatedTable from './maintaince-cranes-table';
+
+
+
 function TabContainer(props) {
   const { children, dir } = props;
 
@@ -139,20 +144,10 @@ class PortOperationsContent extends React.Component {
           <TabContainer onClick={() => console.log('bla')} dir={theme.direction}>CONTAINER YARD SPACE MANAGEMENT</TabContainer>
           <TabContainer dir={theme.direction}>
             <React.Fragment>
-              {/* {checkedFilters.indexOf('Allocated') !== -1 && <AllocatedTable />} */}
               <AllocatedTable />
               <CssBaseline />
               <Divider />
-              {/* {checkedFilters.indexOf('To be allocated') !== -1 && <ToBeAllocatedTable />} */}
               <ToBeAllocatedTable />
-            </React.Fragment>
-          </TabContainer>
-          <TabContainer dir={theme.direction}>
-            <React.Fragment>
-              {checkedFilters.indexOf('Trucks') !== -1 && <AllocatedTable />}
-              <CssBaseline />
-              <Divider />
-              {checkedFilters.indexOf('Cranes') !== -1 && <ToBeAllocatedTable />}
             </React.Fragment>
           </TabContainer>
           <TabContainer dir={theme.direction}>
@@ -161,6 +156,14 @@ class PortOperationsContent extends React.Component {
               <CssBaseline />
               <Divider />
               {checkedFilters.indexOf('Logistic2') !== -1 && <ToBeAllocatedTable />}
+            </React.Fragment>
+          </TabContainer>
+          <TabContainer dir={theme.direction}>
+            <React.Fragment>
+              {checkedFilters.indexOf('Trailers') !== -1 && <MaintainceAllocatedTable />}
+              <CssBaseline />
+              <Divider />
+              {checkedFilters.indexOf('Cranes') !== -1 && <MaintainceToBeAllocatedTable />}
             </React.Fragment>
           </TabContainer>
         </SwipeableViews>

@@ -150,8 +150,7 @@ class Dashboard extends React.Component {
       'Logistic1',
       'Logistic2',
       //maintaince
-      'Trucks', 
-      'Cranes'
+      'Cranes', 
     ]
   };
 
@@ -233,7 +232,7 @@ class Dashboard extends React.Component {
               checkedFilters={this.state.checkedFilters}
               icon={<FilterIcon />}
               title="FILTER"
-              options={['Trucks', 'Cranes']}
+              options={['Cranes', 'Trailers']}
               checkAllFilters
               open={true}
               handleToggle={this.handleSidebarFilterToggle}

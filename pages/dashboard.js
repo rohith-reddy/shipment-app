@@ -149,6 +149,8 @@ class Dashboard extends React.Component {
       'Vessel 5',
       //berth allocation
       'JNPCT Main Berth', 
+      'Allocated',
+      'To be allocated',
       //logistics
       'Logistic1',
       'Logistic2',
@@ -225,6 +227,33 @@ class Dashboard extends React.Component {
       </React.Fragment>
     )
   }
+
+  containerYardSpaceFilterNode = () => {
+  return (
+    <React.Fragment>
+      <List>{
+        <MainListItems
+          checkedFilters={this.state.checkedFilters}
+          handleToggle={this.handleSidebarFilterToggle}
+          icon={<TruckIcon />}
+          title="Import Yard"
+          options={['Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5']}
+          open={true}
+        />
+      }</List>
+      <Divider />
+      <List>{
+        <MainListItems
+          checkedFilters={this.state.checkedFilters}
+          handleToggle={this.handleSidebarFilterToggle}
+          icon={<CraneIcon />}
+          title="Export Yard"
+          options={['Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5']}
+        />
+      }</List>
+    </React.Fragment>
+  )
+}
 
   maintenanceFilterNode = () => {
     const { checkedFilters } = this.state;
@@ -323,7 +352,7 @@ class Dashboard extends React.Component {
   getFilterNode = (currentSidebarFilter) => {
     switch (currentSidebarFilter) {
       case 'container_and_space_management':
-        return this.mapOperationsFilterNode();
+        return this.containerYardSpaceFilterNode();
         break;
       case 'berth_allocation':
         return this.berthAllocationFilterNode();

@@ -20,6 +20,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 import AllocatedTable from './allocated-table';
 import ToBeAllocatedTable from './to-be-allocated-table';
+import YardSpaceTable from './yard-space';
 
 import MaintainceAllocatedTable from './maintaince-trailers-table';
 import MaintainceToBeAllocatedTable from './maintaince-cranes-table';
@@ -174,7 +175,7 @@ class PortOperationsContent extends React.Component {
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          <TabContainer onClick={() => console.log('bla')} dir={theme.direction}>CONTAINER YARD SPACE MANAGEMENT</TabContainer>
+          {/*<TabContainer onClick={() => console.log('bla')} dir={theme.direction}>CONTAINER YARD SPACE MANAGEMENT</TabContainer>*/}
           <TabContainer dir={theme.direction}>
             <React.Fragment>
             <div className={classes.searchWrapper}>
@@ -193,11 +194,14 @@ class PortOperationsContent extends React.Component {
                 <SearchIcon />
               </Button>
             </div>
-              <AllocatedTable title={
+              {/* <AllocatedTable title={
                 checkedFilters[checkedFilters.findIndex(this.handleGetTitleOfAllocatedTable)]}/>
               <CssBaseline />
               <Divider />
-              <ToBeAllocatedTable />
+              <ToBeAllocatedTable /> */}
+              <YardSpaceTable />
+              <CssBaseline />
+              <Divider />
             </React.Fragment>
           </TabContainer>
           <TabContainer dir={theme.direction}>

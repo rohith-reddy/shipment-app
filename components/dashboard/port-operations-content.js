@@ -145,8 +145,22 @@ class PortOperationsContent extends React.Component {
               {checkedFilters.indexOf('To be allocated') !== -1 && <ToBeAllocatedTable />}
             </React.Fragment>
           </TabContainer>
-          <TabContainer dir={theme.direction}>LOGISTICS</TabContainer>
-          <TabContainer dir={theme.direction}>MAINTENANCE</TabContainer>
+          <TabContainer dir={theme.direction}>
+            <React.Fragment>
+              {checkedFilters.indexOf('Trucks') !== -1 && <AllocatedTable />}
+              <CssBaseline />
+              <Divider />
+              {checkedFilters.indexOf('Cranes') !== -1 && <ToBeAllocatedTable />}
+            </React.Fragment>
+          </TabContainer>
+          <TabContainer dir={theme.direction}>
+            <React.Fragment>
+              {checkedFilters.indexOf('Logistic1') !== -1 && <AllocatedTable />}
+              <CssBaseline />
+              <Divider />
+              {checkedFilters.indexOf('Logistic2') !== -1 && <ToBeAllocatedTable />}
+            </React.Fragment>
+          </TabContainer>
         </SwipeableViews>
         {/* {fabs.map((fab, index) => (
           <Zoom

@@ -29,8 +29,6 @@ class NestedList extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log('ro', props)
-
     this.state = {
       open: props.open || false,
     }

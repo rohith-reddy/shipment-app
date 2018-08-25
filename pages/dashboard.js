@@ -19,6 +19,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MainListItems from '../components/dashboard/list-items';
 import SimpleLineChart from '../components/dashboard/simple-line-chart';
 import SimpleTable from '../components/dashboard/simple-table';
+import HorizontalTimeline from '../components/dashboard/horizontal-blockchain-timeline';
 
 import PortOperationsContent from '../components/dashboard/port-operations-content';
 import MapOperations from '../components/dashboard/map-operations';
@@ -32,10 +33,11 @@ import VesselIcon from '@material-ui/icons/Waves';
 import RailIcon from '@material-ui/icons/DirectionsRailway';
 import FilterIcon from '@material-ui/icons/FilterList';
 
-
 import Notifications from '../components/notification';
 
 import { setInterval } from 'timers';
+
+import { dummyTimelineInfo } from '../helper/dummy-data';
 
 const drawerWidth = 240;
 
@@ -127,7 +129,17 @@ class Dashboard extends React.Component {
     selectedTab: 'port_operations',
     notifications: [1],
     currentSidebarFilter: 'port_operations',
-    checkedFilters: ['Allocated', 'To be allocated']
+    checkedFilters: [
+      //berth allocation
+      'Allocated', 
+      'To be allocated',
+      //logistics
+      'Logistic1',
+      'Logistic2',
+      //maintaince
+      'Trucks', 
+      'Cranes'
+    ]
   };
 
   componentDidMount() {
@@ -167,6 +179,49 @@ class Dashboard extends React.Component {
         <List>{<MainListItems checkedFilters={this.state.checkedFilters} handleToggle={this.handleSidebarFilterToggle} icon={<VesselIcon />} title="VESSEL" options={[7, 8]} />}</List>
         <Divider />
         <List>{<MainListItems checkedFilters={this.state.checkedFilters} handleToggle={this.handleSidebarFilterToggle} icon={<RailIcon />} title="RAIL" options={[9, 10]} />}</List>
+      </React.Fragment>
+    )
+  }
+
+  maintenanceFilterNode = () => {
+    const { checkedFilters } = this.state;
+    return (
+      <React.Fragment>
+        <List>
+          {
+            <MainListItems
+              checkedFilters={this.state.checkedFilters}
+              icon={<FilterIcon />}
+              title="FILTER"
+              options={['Trucks', 'Cranes']}
+              checkAllFilters
+              open={true}
+              handleToggle={this.handleSidebarFilterToggle}
+            />
+          }
+        </List>
+      </React.Fragment>
+    )
+  }
+
+
+  logisticsFilterNode = () => {
+    const { checkedFilters } = this.state;
+    return (
+      <React.Fragment>
+        <List>
+          {
+            <MainListItems
+              checkedFilters={this.state.checkedFilters}
+              icon={<FilterIcon />}
+              title="FILTER"
+              options={['Logistic1', 'Logistic2']}
+              checkAllFilters
+              open={true}
+              handleToggle={this.handleSidebarFilterToggle}
+            />
+          }
+        </List>
       </React.Fragment>
     )
   }
@@ -222,9 +277,9 @@ class Dashboard extends React.Component {
       case 'berth_allocation':
         return this.berthAllocationFilterNode();
       case 'logistics':
-        return this.mapOperationsFilterNode();
+        return this.logisticsFilterNode();
       case 'maintenance':
-        return this.mapOperationsFilterNode();
+        return this.maintenanceFilterNode();
       case 'container_information_system':
         return this.mapOperationsFilterNode();
       case 'map_operations':
@@ -369,9 +424,24 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
+const dummyTimelineInfoMapped = dummyTimelineInfo.map((info, index) => {
+  return ({
+    date: info.date,
+    component: (
+      <div className='container' key={index}>
+        <h1>{ `SOME DATA ABOUT EVENT${index + 1}:`}</h1>
+        <h2>{ info.subtitle }</h2>
+        <hr />
+        <p>{ info.content}</p>
+        <hr />
+      </div>
+    )
+  });
+});
+
 const ContainerInfoSystemContent = ({ classes }) => (
   <React.Fragment>
-    <Typography variant="display1" gutterBottom>
+    {/* <Typography variant="display1" gutterBottom>
       Orders
     </Typography>
     <Typography component="div" className={classes.chartContainer}>
@@ -382,7 +452,8 @@ const ContainerInfoSystemContent = ({ classes }) => (
     </Typography>
     <div className={classes.tableContainer}>
       <SimpleTable />
-    </div>
+    </div> */}
+    <HorizontalTimeline content={dummyTimelineInfoMapped}/>
   </React.Fragment>
 )
 

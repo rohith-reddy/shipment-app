@@ -19,7 +19,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MainListItems from '../components/dashboard/list-items';
 import SimpleLineChart from '../components/dashboard/simple-line-chart';
 import SimpleTable from '../components/dashboard/simple-table';
-import HorizontalTimeline from '../components/dashboard/horizontal-blockchain-timeline';
+import BlockchainStepper from '../components/dashboard/horizontal-blockchain-stepper';
 
 import PortOperationsContent from '../components/dashboard/port-operations-content';
 import MapOperations from '../components/dashboard/map-operations';
@@ -453,7 +453,8 @@ const ContainerInfoSystemContent = ({ classes }) => (
     <div className={classes.tableContainer}>
       <SimpleTable />
     </div> */}
-    <HorizontalTimeline content={dummyTimelineInfoMapped}/>
+    {/* <HorizontalTimeline content={dummyTimelineInfoMapped}/> */}
+    <BlockchainStepper />
   </React.Fragment>
 )
 

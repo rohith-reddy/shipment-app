@@ -19,6 +19,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 import AllocatedTable from './allocated-table';
 import ToBeAllocatedTable from './to-be-allocated-table';
+import YardSpaceTable from './yard-space';
 
 function TabContainer(props) {
   const { children, dir } = props;
@@ -136,13 +137,12 @@ class PortOperationsContent extends React.Component {
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          <TabContainer onClick={() => console.log('bla')} dir={theme.direction}>CONTAINER YARD SPACE MANAGEMENT</TabContainer>
+          {/*<TabContainer onClick={() => console.log('bla')} dir={theme.direction}>CONTAINER YARD SPACE MANAGEMENT</TabContainer>*/}
           <TabContainer dir={theme.direction}>
             <React.Fragment>
-              {checkedFilters.indexOf('Allocated') !== -1 && <AllocatedTable />}
+              <YardSpaceTable />
               <CssBaseline />
               <Divider />
-              {checkedFilters.indexOf('To be allocated') !== -1 && <ToBeAllocatedTable />}
             </React.Fragment>
           </TabContainer>
           <TabContainer dir={theme.direction}>

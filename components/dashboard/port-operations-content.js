@@ -139,10 +139,12 @@ class PortOperationsContent extends React.Component {
           <TabContainer onClick={() => console.log('bla')} dir={theme.direction}>CONTAINER YARD SPACE MANAGEMENT</TabContainer>
           <TabContainer dir={theme.direction}>
             <React.Fragment>
-              {checkedFilters.indexOf('Allocated') !== -1 && <AllocatedTable />}
+              {/* {checkedFilters.indexOf('Allocated') !== -1 && <AllocatedTable />} */}
+              <AllocatedTable />
               <CssBaseline />
               <Divider />
-              {checkedFilters.indexOf('To be allocated') !== -1 && <ToBeAllocatedTable />}
+              {/* {checkedFilters.indexOf('To be allocated') !== -1 && <ToBeAllocatedTable />} */}
+              <ToBeAllocatedTable />
             </React.Fragment>
           </TabContainer>
           <TabContainer dir={theme.direction}>

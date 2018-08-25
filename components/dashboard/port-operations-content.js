@@ -227,7 +227,6 @@ class PortOperationsContent extends React.Component {
               <AllocatedTable />
               <CssBaseline />
               <Divider />
-              {/* {checkedFilters.indexOf('To be allocated') !== -1 && <ToBeAllocatedTable />} */}
               <ToBeAllocatedTable />
             </React.Fragment>
           </TabContainer>

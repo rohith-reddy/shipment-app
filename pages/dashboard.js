@@ -140,6 +140,12 @@ class Dashboard extends React.Component {
     notifications: [1],
     currentSidebarFilter: 'container_information_system',
     checkedFilters: [
+      //container info system
+      'Vessel 1',
+      'Vessel 2',
+      'Vessel 3',
+      'Vessel 4',
+      'Vessel 5',
       //berth allocation
       'Allocated',
       'To be allocated',
@@ -196,6 +202,7 @@ class Dashboard extends React.Component {
     )
   }
 
+<<<<<<< HEAD
   containerYardSpaceFilterNode = () => {
   return (
     <React.Fragment>
@@ -222,6 +229,28 @@ class Dashboard extends React.Component {
     </React.Fragment>
   )
 }
+=======
+  containerInformationSystemFilterNode = () => {
+    const { checkedFilters } = this.state;
+    return (
+      <React.Fragment>
+        <List>
+          {
+            <MainListItems
+              checkedFilters={this.state.checkedFilters}
+              icon={<FilterIcon />}
+              title="FILTER"
+              options={['Vessel 1','Vessel 2','Vessel 3','Vessel 4','Vessel 5']}
+              checkAllFilters
+              open={true}
+              handleToggle={this.handleSidebarFilterToggle}
+            />
+          }
+        </List>
+      </React.Fragment>
+    )
+  }
+>>>>>>> Add the table data
 
   maintenanceFilterNode = () => {
     const { checkedFilters } = this.state;
@@ -340,7 +369,7 @@ class Dashboard extends React.Component {
       case 'maintenance':
         return this.maintenanceFilterNode();
       case 'container_information_system':
-        return this.mapOperationsFilterNode();
+        return this.containerInformationSystemFilterNode();
       case 'map_operations':
         return this.berthAllocationFilterNode();
       case 'port_operations':
@@ -529,7 +558,7 @@ const ContainerInfoSystemContent = ({ classes }) => (
     </div> */}
     {/* <HorizontalTimeline content={dummyTimelineInfoMapped}/> */}
     <BlockchainStepper />
-    <div style={{marginTop: 100}}/>
+    <div style={{marginTop: 50}}/>
     <Grid container spacing={24}>
       <Grid item xs={6}>
         <EventsTable/>

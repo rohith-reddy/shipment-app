@@ -187,7 +187,7 @@ class HorizontalNonLinearAlternativeLabelStepper extends React.Component {
           })}
         </Stepper>
         <div>
-          {this.allStepsCompleted() ? (
+          {/* {this.allStepsCompleted() ? (
             <div>
               <Typography className={classes.instructions}>
                 All steps completed - you&quot;re finished
@@ -236,7 +236,7 @@ class HorizontalNonLinearAlternativeLabelStepper extends React.Component {
                   ))}
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     );

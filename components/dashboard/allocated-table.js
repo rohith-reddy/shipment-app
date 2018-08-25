@@ -20,9 +20,9 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 
 let counter = 0;
-function createData(name, preBerthTime, berth, postBerthTime, sailTime) {
+function createData(name, loa, berthAllocated, berthingTime, sailTime, imp, exp) {
   counter += 1;
-  return { id: counter, name, preBerthTime, berth, postBerthTime, sailTime };
+  return { id: counter, name, loa, berthAllocated, berthingTime, sailTime, imp, exp };
 }
 
 
@@ -41,11 +41,14 @@ function getSorting(order, orderBy) {
 }
 
 const rows = [
-  { id: 'Upcoming Ships', numeric: false, disablePadding: true, label: 'Upcoming Ships' },
-  { id: 'Estimated Pre-Berth Time', numeric: true, disablePadding: false, label: 'Estimated Pre-Berthing Time' },
-  { id: 'Estimated Berth', numeric: true, disablePadding: false, label: 'Estimated Berth' },
-  { id: 'Estimated Berth Time', numeric: true, disablePadding: false, label: 'Estimated Berth Time' },
-  { id: 'Estimated Sail Time', numeric: true, disablePadding: false, label: 'Estimated Sail Time' },
+  { id: 'serial number', numeric: false, disablePadding: false, label: 'Serial number' },
+  { id: 'vessel number', numeric: false, disablePadding: true, label: 'Vessel number' },
+  { id: 'loa', numeric: false, disablePadding: false, label: 'LOA' },
+  { id: 'berth allocated', numeric: false, disablePadding: true, label: 'Berth allocated' },
+  { id: 'berthing time', numeric: false, disablePadding: true, label: 'Berthing time' },
+  { id: 'estimated sailing time', numeric: false, disablePadding: true, label: 'Estimated Sail Time' },
+  { id: 'imp', numeric: true, disablePadding: false, label: 'IMP' },
+  { id: 'exp', numeric: true, disablePadding: false, label: 'EXP' },
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -59,13 +62,6 @@ class EnhancedTableHead extends React.Component {
     return (
       <TableHead>
         <TableRow>
-          <TableCell padding="checkbox">
-            <Checkbox
-              indeterminate={numSelected > 0 && numSelected < rowCount}
-              checked={numSelected === rowCount}
-              onChange={onSelectAllClick}
-            />
-          </TableCell>
           {rows.map(row => {
             return (
               <TableCell
@@ -123,6 +119,7 @@ const toolbarStyles = theme => ({
     flex: '1 1 100%',
   },
   actions: {
+    minWidth: 250,
     color: theme.palette.text.secondary,
   },
   title: {
@@ -146,7 +143,7 @@ let EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="title" id="tableTitle">
-            Ships
+            JNPCT Main Berth Operations
           </Typography>
         )}
       </div>
@@ -158,13 +155,7 @@ let EnhancedTableToolbar = props => {
               <DeleteIcon />
             </IconButton>
           </Tooltip>
-        ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )}
+        ) : 'Last Updated at :- 02-Jan-2018 14:00:00'}
       </div>
     </Toolbar>
   );
@@ -196,14 +187,12 @@ class EnhancedTable extends React.Component {
     orderBy: 'preBerthTime',
     selected: [],
     data: [
-      createData('Vessel 1', 305, 'B1', 67, 4.3),
-      createData('Vessel 2', 452, 'B8', 51, 4.9),
-      createData('Vessel 3', 262, 'B3', 24, 6.0),
-      createData('Vessel 4', 159, 'B5', 24, 4.0),
-      createData('Vessel 4', 159, 'NOT ALLOCATED', 24, 4.0),
+      createData('H2339', 222.14, 'B1', "31-Dec-2017 12:00", '02-Jan-2018 4:45', 2287, 2040),
+      createData('H232', 244.94, 'B2', "01-Jan-2018 16:42", '02-Jan-2018 12:24', 1258, 697),
+      createData('H2383', 264.28, 'B3', "02-Jan-2018 7:40", '03-Jan-2018 1:10', 963, 731),
     ],
     page: 0,
-    rowsPerPage: 5,
+    rowsPerPage: 3,
   };
 
   handleRequestSort = (event, property) => {
@@ -276,8 +265,8 @@ class EnhancedTable extends React.Component {
             />
             <TableBody>
               {data
-                .sort(getSorting(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                // .sort(getSorting(order, orderBy))
+                // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(n => {
                   const isSelected = this.isSelected(n.id);
                   return (
@@ -290,16 +279,18 @@ class EnhancedTable extends React.Component {
                       key={n.id}
                       selected={isSelected}
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox checked={isSelected} />
+                      <TableCell>
+                        {n.id}
                       </TableCell>
-                      <TableCell component="th" scope="row" padding="none">
+                      <TableCell component="th" scope="row">
                         {n.name}
                       </TableCell>
-                      <TableCell numeric>{n.preBerthTime}</TableCell>
-                      <TableCell numeric>{n.berth}</TableCell>
-                      <TableCell numeric>{n.postBerthTime}</TableCell>
-                      <TableCell numeric>{n.sailTime}</TableCell>
+                      <TableCell>{n.loa}</TableCell>
+                      <TableCell padding="none">{n.berthAllocated}</TableCell>
+                      <TableCell padding="none">{n.berthingTime}</TableCell>
+                      <TableCell padding="none">{n.sailTime}</TableCell>
+                      <TableCell numeric>{n.imp}</TableCell>
+                      <TableCell numeric>{n.exp}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -311,7 +302,7 @@ class EnhancedTable extends React.Component {
             </TableBody>
           </Table>
         </div>
-        <TablePagination
+        {/* <TablePagination
           component="div"
           count={data.length}
           rowsPerPage={rowsPerPage}
@@ -324,7 +315,7 @@ class EnhancedTable extends React.Component {
           }}
           onChangePage={this.handleChangePage}
           onChangeRowsPerPage={this.handleChangeRowsPerPage}
-        />
+        /> */}
       </Paper>
     );
   }

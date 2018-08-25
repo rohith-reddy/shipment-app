@@ -289,9 +289,6 @@ class ToBeAllocatedTable extends React.Component {
                         {/* <Checkbox checked={isSelected} /> */}
                         {n.id}
                       </TableCell>
-                      <TableCell component="th" scope="row">
-                        {n.timestamp}
-                      </TableCell>
                       <TableCell>{n.event}</TableCell>
                       <TableCell>{n.status}</TableCell>
                     </TableRow>

@@ -157,7 +157,7 @@ let EnhancedTableToolbar = props => {
               <DeleteIcon />
             </IconButton>
           </Tooltip>
-        ) : <div className={classes.lastUpdated}>'Last Updated at :- 02-Jan-2018 14:00:00'</div>}
+        ) : <div className={classes.lastUpdated}>Last Updated at :- 02-Jan-2018 14:00:00</div>}
       </div>
     </Toolbar>
   );

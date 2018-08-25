@@ -383,7 +383,10 @@ class Dashboard extends React.Component {
                     selectedTab === 'container_information_system' && classes.selectedTab || ''
                   )
                 }
-                onClick={() => this.setState({ selectedTab: 'container_information_system' })}
+                onClick={() => this.setState({ 
+                  selectedTab: 'container_information_system',
+                  currentSidebarFilter: 'container_information_system' 
+                })}
               >
                 CONTAINER INFORMATION SYSTEM
               </Button>
@@ -392,7 +395,10 @@ class Dashboard extends React.Component {
                 className={
                   selectedTab === 'map_operations' && classes.selectedTab || ''
                 }
-                onClick={() => this.setState({ selectedTab: 'map_operations' })}
+                onClick={() => this.setState({ 
+                  selectedTab: 'map_operations',
+                  currentSidebarFilter: 'map_operations' 
+                })}
               >
                 MAP OPERATIONS
               </Button>
@@ -401,7 +407,10 @@ class Dashboard extends React.Component {
                 className={
                   selectedTab === 'port_operations' && classes.selectedTab || ''
                 }
-                onClick={() => this.setState({ selectedTab: 'port_operations' })}
+                onClick={() => this.setState({
+                  selectedTab: 'port_operations',
+                  currentSidebarFilter: 'port_operations' 
+              })}
               >
                 PORT OPERATIONS
               </Button>
@@ -410,7 +419,10 @@ class Dashboard extends React.Component {
                 className={
                   selectedTab === 'transport' && classes.selectedTab || ''
                 }
-                onClick={() => this.setState({ selectedTab: 'transport' })}
+                onClick={() => this.setState({
+                  selectedTab: 'transport',
+                  currentSidebarFilter: 'transport' 
+                })}
               >
                 TRANSPORT
               </Button>

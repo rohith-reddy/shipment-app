@@ -516,10 +516,10 @@ class Dashboard extends React.Component {
                 className={
                   selectedTab === 'port_operations' && classes.selectedTab || ''
                 }
-                onClick={() => this.setState({ 
-                      selectedTab: 'port_operations',
-                      currentSidebarFilter: 'container_and_space_management' 
-                    })}
+                onClick={() => this.setState({
+                  selectedTab: 'port_operations',
+                  currentSidebarFilter: 'port_operations' 
+              })}
               >
                 PORT OPERATIONS
               </Button>
@@ -528,10 +528,10 @@ class Dashboard extends React.Component {
                 className={
                   selectedTab === 'transport' && classes.selectedTab || ''
                 }
-                onClick={() => this.setState({ 
-                      selectedTab: 'transport',
-                      currentSidebarFilter: 'transport' 
-                    })}
+                onClick={() => this.setState({
+                  selectedTab: 'transport',
+                  currentSidebarFilter: 'transport' 
+                })}
               >
                 TRANSPORT
               </Button>

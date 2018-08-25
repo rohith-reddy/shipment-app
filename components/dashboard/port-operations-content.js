@@ -151,6 +151,12 @@ class PortOperationsContent extends React.Component {
               <CssBaseline />
               <Divider />
               {checkedFilters.indexOf('Cranes') !== -1 && <ToBeAllocatedTable />}
+              {/* {checkedFilters.indexOf('Allocated') !== -1 && <AllocatedTable />} */}
+              <AllocatedTable />
+              <CssBaseline />
+              <Divider />
+              {/* {checkedFilters.indexOf('To be allocated') !== -1 && <ToBeAllocatedTable />} */}
+              <ToBeAllocatedTable />
             </React.Fragment>
           </TabContainer>
           <TabContainer dir={theme.direction}>

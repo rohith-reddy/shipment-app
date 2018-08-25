@@ -303,7 +303,7 @@ class ToBeAllocatedTable extends React.Component {
             </TableBody>
           </Table>
         </div>
-        <TablePagination
+        {/* <TablePagination
           component="div"
           count={data.length}
           rowsPerPage={rowsPerPage}
@@ -316,7 +316,7 @@ class ToBeAllocatedTable extends React.Component {
           }}
           onChangePage={this.handleChangePage}
           onChangeRowsPerPage={this.handleChangeRowsPerPage}
-        />
+        /> */}
       </Paper>
     );
   }

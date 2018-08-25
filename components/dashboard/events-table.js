@@ -41,7 +41,7 @@ function getSorting(order, orderBy) {
 }
 
 const rows = [
-  { id: 'time stamp', numeric: false, disablePadding: true, label: 'Time stamp' },
+  { id: 'time stamp', numeric: false, disablePadding: false, label: 'Time stamp' },
   { id: 'Events', numeric: false, disablePadding: false, label: 'Events' },
   { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
 ];
@@ -156,13 +156,7 @@ let EventsTableToolbar = props => {
               <DeleteIcon />
             </IconButton>
           </Tooltip>
-        ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )}
+        ) : null}
       </div>
     </Toolbar>
   );
@@ -293,8 +287,8 @@ class ToBeAllocatedTable extends React.Component {
                       <TableCell component="th" scope="row">
                         {n.timestamp}
                       </TableCell>
-                      <TableCell numeric>{n.event}</TableCell>
-                      <TableCell numeric>{n.status}</TableCell>
+                      <TableCell>{n.event}</TableCell>
+                      <TableCell>{n.status}</TableCell>
                     </TableRow>
                   );
                 })}

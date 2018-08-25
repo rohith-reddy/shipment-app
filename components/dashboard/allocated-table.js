@@ -122,7 +122,7 @@ const toolbarStyles = theme => ({
     color: theme.palette.text.secondary,
   },
   lastUpdated: {
-    minWidth: 250,
+    minWidth: 280,
   },
   title: {
     flex: '0 0 auto',
@@ -157,7 +157,7 @@ let EnhancedTableToolbar = props => {
               <DeleteIcon />
             </IconButton>
           </Tooltip>
-        ) : 'Last Updated at :- 02-Jan-2018 14:00:00'}
+        ) : <div className={classes.lastUpdated}>'Last Updated at :- 02-Jan-2018 14:00:00'</div>}
       </div>
     </Toolbar>
   );

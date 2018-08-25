@@ -57,12 +57,13 @@ class EventsTableHead extends React.Component {
     return (
       <TableHead>
         <TableRow>
-          <TableCell padding="checkbox">
-            <Checkbox
+          <TableCell>
+            {/* <Checkbox
               indeterminate={numSelected > 0 && numSelected < rowCount}
               checked={numSelected === rowCount}
               onChange={onSelectAllClick}
-            />
+            /> */}
+            Serial number
           </TableCell>
           {rows.map(row => {
             return (
@@ -124,7 +125,7 @@ const toolbarStyles = theme => ({
     color: theme.palette.text.secondary,
   },
   lastUpdated: {
-      minWidth: 200,
+      minWidth: 280,
   },
   title: {
     flex: '0 0 auto',
@@ -159,7 +160,7 @@ let EventsTableToolbar = props => {
               <DeleteIcon />
             </IconButton>
           </Tooltip>
-        ) : <span className="lastUpdated">Last Updated at :- 02-Jan-2018 14:00:00</span>}
+        ) : <div className={classes.lastUpdated}>Last Updated at :- 02-Jan-2018 14:00:00</div>}
       </div>
     </Toolbar>
   );
@@ -284,8 +285,9 @@ class ToBeAllocatedTable extends React.Component {
                       key={n.id}
                       selected={isSelected}
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox checked={isSelected} />
+                      <TableCell>
+                        {/* <Checkbox checked={isSelected} /> */}
+                        {n.id}
                       </TableCell>
                       <TableCell component="th" scope="row">
                         {n.timestamp}

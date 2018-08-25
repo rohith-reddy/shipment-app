@@ -153,6 +153,8 @@ class Dashboard extends React.Component {
       'JNPCT Main Berth', 
       'Allocated',
       'To be allocated',
+      //container yard 
+      'JNPCT Main Berth', 
       //logistics
       'Logistic1',
       'Logistic2',
@@ -286,7 +288,13 @@ class Dashboard extends React.Component {
               checkedFilters={this.state.checkedFilters}
               icon={<FilterIcon />}
               title="FILTER"
-              options={['Vessel 1','Vessel 2','Vessel 3','Vessel 4','Vessel 5']}
+              options={[
+                'Vessel 1',
+                'Vessel 2',
+                'Vessel 3',
+                'Vessel 4',
+                'Vessel 5'
+              ]}
               checkAllFilters
               open={true}
               handleToggle={this.handleSidebarFilterToggle}

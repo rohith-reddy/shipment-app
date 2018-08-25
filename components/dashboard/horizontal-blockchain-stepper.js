@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
   root: {
-    width: '90%',
+    width: '100%',
   },
   button: {
     marginRight: theme.spacing.unit,
@@ -27,17 +27,19 @@ const styles = theme => ({
 });
 
 function getSteps() {
-  return ['Select campaign settings', 'Create an ad group', 'Create an ad'];
+  return ['Pre-arrival of vessel', 'Vessel berthing', 'Vessel berthing', 'Vessel berthing'];
 }
 
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return 'Step 1: Select campaign settings...';
+      return 'Step 1: Pre-arrival of vessel';
     case 1:
-      return 'Step 2: What is an ad group anyways?';
+      return 'Step 2: Vessel berthing';
     case 2:
-      return 'Step 3: This is the bit I really care about!';
+      return 'Step 3: Vessel berthing';
+    case 2:
+      return 'Step 4: Vessel berthing';
     default:
       return 'Unknown step';
   }

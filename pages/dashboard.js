@@ -39,6 +39,14 @@ import { setInterval } from 'timers';
 
 import { dummyTimelineInfo } from '../helper/dummy-data';
 
+
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import FileUploadCard from '../components/dashboard/container-file-upload-card'
+import EventsTable from '../components/dashboard/events-table';
+import Grid from '@material-ui/core/Grid';
+
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -126,9 +134,9 @@ const styles = theme => ({
 class Dashboard extends React.Component {
   state = {
     open: true,
-    selectedTab: 'port_operations',
+    selectedTab: 'container_information_system',
     notifications: [1],
-    currentSidebarFilter: 'port_operations',
+    currentSidebarFilter: 'container_information_system',
     checkedFilters: [
       //berth allocation
       'Allocated', 
@@ -455,6 +463,31 @@ const ContainerInfoSystemContent = ({ classes }) => (
     </div> */}
     {/* <HorizontalTimeline content={dummyTimelineInfoMapped}/> */}
     <BlockchainStepper />
+    <div style={{marginTop: 100}}/>
+    <Grid container spacing={24}>
+      <Grid item xs={6}>
+        <EventsTable/>
+      </Grid>
+      <Grid item xs={6}>
+        <FileUploadCard />
+      </Grid>
+    </Grid>
+    {/* <GridList cellHeight={300} spacing={1} style={{marginTop: 100}}>
+      <GridListTile key="some table1" cols="1" rows="1">
+            <EventsTable/>
+          </GridListTile>
+          <GridListTile key="some table" cols="1" rows="1">
+            <FileUploadCard />
+          </GridListTile>
+          <GridListTile key="some table" cols="2" rows="2" style={{marginTop: 50}}>
+            1
+            <GridListTileBar
+              title="1"
+              titlePosition="top"
+              actionPosition="left"
+            />
+          </GridListTile>
+      </GridList> */}
   </React.Fragment>
 )
 

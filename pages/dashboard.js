@@ -276,6 +276,26 @@ class Dashboard extends React.Component {
     </React.Fragment>
   )
 }
+  containerInformationSystemFilterNode = () => {
+    const { checkedFilters } = this.state;
+    return (
+      <React.Fragment>
+        <List>
+          {
+            <MainListItems
+              checkedFilters={this.state.checkedFilters}
+              icon={<FilterIcon />}
+              title="FILTER"
+              options={['Vessel 1','Vessel 2','Vessel 3','Vessel 4','Vessel 5']}
+              checkAllFilters
+              open={true}
+              handleToggle={this.handleSidebarFilterToggle}
+            />
+          }
+        </List>
+      </React.Fragment>
+    )
+  }
 
   maintenanceFilterNode = () => {
     const { checkedFilters } = this.state;
@@ -384,12 +404,7 @@ class Dashboard extends React.Component {
   getFilterNode = (currentSidebarFilter) => {
     switch (currentSidebarFilter) {
       case 'container_and_space_management':
-<<<<<<< HEAD
         return this.containerYardSpaceFilterNode();
-        break;
-=======
-        return this.mapOperationsFilterNode();
->>>>>>> Add logistics screen
       case 'berth_allocation':
         return this.berthAllocationFilterNode();
       case 'logistics':
@@ -505,17 +520,10 @@ class Dashboard extends React.Component {
                 className={
                   selectedTab === 'transport' && classes.selectedTab || ''
                 }
-<<<<<<< HEAD
-                onClick={() => this.setState({
-                  selectedTab: 'transport',
-                  currentSidebarFilter: 'transport' 
-                })}
-=======
                 onClick={() => this.setState({ 
                       selectedTab: 'transport',
                       currentSidebarFilter: 'transport' 
                     })}
->>>>>>> transport section #1
               >
                 TRANSPORT
               </Button>

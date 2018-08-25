@@ -127,6 +127,7 @@ const toolbarStyles = theme => ({
     flex: '1 1 100%',
   },
   actions: {
+    minWidth: 250,
     color: theme.palette.text.secondary,
   },
   lastUpdated: {

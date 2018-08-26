@@ -47,6 +47,9 @@ import FileUploadCard from '../components/dashboard/container-file-upload-card'
 import EventsTable from '../components/dashboard/events-table';
 import Grid from '@material-ui/core/Grid';
 
+import Input from "@material-ui/core/Input";
+import SearchIcon from '@material-ui/icons/Search';
+
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -292,6 +295,10 @@ class Dashboard extends React.Component {
     });
   }
 
+  clickStep = () => {
+    alert('step');
+  }
+
   handleSidebarFilterToggle = value => () => {
     const { checkedFilters, currentSidebarFilter } = this.state;
     const currentIndex = checkedFilters.indexOf(value);
@@ -344,7 +351,7 @@ class Dashboard extends React.Component {
 
     switch (selectedTab) {
       case 'container_information_system':
-        content = <ContainerInfoSystemContent classes={classes} />;
+        content = <ContainerInfoSystemContent classes={classes} clickStep={this.clickStep} />;
         break;
       case 'map_operations':
         content = <MapOperations />;
@@ -494,7 +501,7 @@ const dummyTimelineInfoMapped = dummyTimelineInfo.map((info, index) => {
   });
 });
 
-const ContainerInfoSystemContent = ({ classes }) => (
+const ContainerInfoSystemContent = ({ classes, clickStep }) => (
   <React.Fragment>
     {/* <Typography variant="display1" gutterBottom>
       Orders
@@ -509,11 +516,28 @@ const ContainerInfoSystemContent = ({ classes }) => (
       <SimpleTable />
     </div> */}
     {/* <HorizontalTimeline content={dummyTimelineInfoMapped}/> */}
+    <div style={{marginBottom: 10, textAlign: 'center', backgroundColor: '#BDD7EE', padding: 15, fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'}}>
+      <span style={{marginRight: 100}}>Blockchain for Vessel/Container Tracking</span>
+      <Input
+        formControlProps={{
+          className: classes.margin + " " + classes.search
+        }}
+        inputProps={{
+          placeholder: "Container/Vessel Search",
+          inputProps: {
+            "aria-label": "Search"
+          }
+        }}
+      />
+      <Button color="white" aria-label="edit" justIcon round>
+        <SearchIcon />
+      </Button>
+    </div>
     <BlockchainStepper />
     <div style={{marginTop: 50}}/>
     <Grid container spacing={24}>
       <Grid item xs={6}>
-        <EventsTable/>
+        <EventsTable />
       </Grid>
       <Grid item xs={6}>
         <FileUploadCard />

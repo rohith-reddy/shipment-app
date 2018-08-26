@@ -145,7 +145,7 @@ let EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="title" id="tableTitle">
-            Ships
+            Current Train Status
           </Typography>
         )}
       </div>

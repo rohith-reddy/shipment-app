@@ -146,7 +146,9 @@ class Dashboard extends React.Component {
       'Logistic2',
       //maintaince
       'Trucks',
-      'Cranes'
+      'Cranes',
+      //container yard space
+      'Level 1'
     ]
   };
 
@@ -290,13 +292,19 @@ class Dashboard extends React.Component {
 
   handleSidebarFilterToggle = value => () => {
     const { checkedFilters } = this.state;
+    const levelFiltersArray = ['Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5'];
     const currentIndex = checkedFilters.indexOf(value);
-    const newChecked = [...checkedFilters];
+    let newChecked = [...checkedFilters];
 
-    if (currentIndex === -1) {
+    if(value.indexOf('Level') !== -1){
+      newChecked = newChecked.filter(checkedFilter => !levelFiltersArray.includes(checkedFilter));
       newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
+    }else{
+      if (currentIndex === -1) {
+        newChecked.push(value);
+      } else {
+        newChecked.splice(currentIndex, 1);
+      }
     }
 
     this.setState({
@@ -397,7 +405,10 @@ class Dashboard extends React.Component {
                 className={
                   selectedTab === 'port_operations' && classes.selectedTab || ''
                 }
-                onClick={() => this.setState({ selectedTab: 'port_operations' })}
+                onClick={() => this.setState({ 
+                      selectedTab: 'port_operations',
+                      currentSidebarFilter: 'container_and_space_management' 
+                    })}
               >
                 PORT OPERATIONS
               </Button>

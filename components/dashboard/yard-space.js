@@ -14,35 +14,140 @@ const styles = theme => ({
     width: 'auto',
     height: 'auto',
     borderSpacing: 0,
+    float: 'left',
+    marginRight: '25px'
   },
   yardspacetd: {
     width: '75px',
     height: '35px',
     boxSizing: 'border-box',
     border: '1px solid black',
-    textAlign: 'center'
+    textAlign: 'center',
   },
+  yardspacetdactive: {
+    width: '75px',
+    height: '35px',
+    boxSizing: 'border-box',
+    border: '1px solid black',
+    textAlign: 'center',
+    backgroundColor: 'yellow',
+    cursor: 'pointer'
+  },
+  yardspacedropdown: {
+    marginBottom: '20px',
+    height: '25px'
+  },
+  containernumber: {
+    height: '25px',
+    margin: '0 0 20px 50px'
+  },
+  yardspacebtn: {
+    height: '20px',
+    margin: '0 0 20px 30px'
+  }
 });
 
 class YardSpaceTable extends React.Component {
 
-  render() {
+  constructor(props){
+    super(props);
 
-    const { classes } = this.props;
-
-    return (
-      <React.Fragment>
-        <Table className={classes.yardspacetable}>
-          <TableBody>
-            <TableRow>
-              <TableCell className={classes.yardspacetd} padding="checkbox">1</TableCell>
-              <TableCell className={classes.yardspacetd} padding="checkbox">2</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </React.Fragment>
-    );
+    this.state = {
+      level: 1,
+      containerNumberToShow: 0
+    }
   }
+
+  componentWillReceiveProps(nextProps){
+    const levelFiltersArray = ['Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5'];
+    const { checkedFilters } = nextProps;
+    let checkedLevel = 1;
+    levelFiltersArray.forEach(level => {
+      if(checkedFilters.indexOf(level) !== -1){
+        checkedLevel = +level.split(" ")[1];
+      }
+    });
+    if(checkedLevel != this.state.level){
+      this.setState({
+        level: checkedLevel
+      });
+    }
+  }
+
+  handleButtonClick(){
+    let containerNumberToShow = +document.getElementById('containernumber').value;
+    this.setState({ containerNumberToShow });
+  }
+
+  renderTableColumns(numAr){
+    const { classes } = this.props;
+    let columnjsx = numAr.map(number => {
+      let tdClass = number === this.state.containerNumberToShow ? classes.yardspacetdactive : classes.yardspacetd;
+      return(
+        <TableCell className={tdClass} padding="checkbox">{number}</TableCell>
+      )
+    });
+    return columnjsx;
+  }
+
+  renderTableRows(num){
+    let number = num - 19;
+    let numberArray = Array.from(new Array(10), (x, i) => i*2 + number);
+    let rowsjsx = numberArray.map(number => {
+      return(
+        <TableRow>
+          { this.renderTableColumns([number, number+1]) }
+        </TableRow>
+      )
+    });
+    return rowsjsx;
+  }
+
+  renderTable(){
+    const { classes } = this.props;
+    const tableNumbers = [1, 2, 3, 4, 5];
+    let tablesjsx = tableNumbers.map(tableNum => {
+      return(
+        <React.Fragment>
+          <Table className={classes.yardspacetable}>
+            <TableBody>
+              { this.renderTableRows((this.state.level-1)*100 + (tableNum*20)) }
+            </TableBody>
+          </Table>
+        </React.Fragment> 
+      )
+    });
+    return tablesjsx;
+  }
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <div>
+        <select className={classes.yardspacedropdown}>
+          <option value="A">Filter A</option>
+          <option value="B">Filter B</option>
+          <option value="C">Filter C</option>
+        </select>
+        <input 
+          type="text" 
+          name="containernumber" 
+          placeholder="Enter the container number"
+          id="containernumber"
+          className={classes.containernumber} 
+        />
+        <button 
+          type="button"
+          className={classes.yardspacebtn} 
+          onClick={this.handleButtonClick.bind(this)}
+        >Check</button>
+        <div>
+          { this.renderTable() }
+        </div>
+      </div>
+    )
+  }
+
 }
 
 export default withStyles(styles)(YardSpaceTable);

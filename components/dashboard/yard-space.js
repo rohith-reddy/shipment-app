@@ -35,15 +35,18 @@ const styles = theme => ({
   },
   yardspacedropdown: {
     marginBottom: '20px',
-    height: '25px'
+    height: '35px',
+    width: '230px'
   },
   containernumber: {
-    height: '25px',
-    margin: '0 0 20px 50px'
+    height: '35px',
+    margin: '0 0 20px 70px',
+    width: '250px'
   },
   yardspacebtn: {
-    height: '20px',
-    margin: '0 0 20px 30px'
+    height: '25px',
+    margin: '0 0 20px 45px',
+    width: '85px'
   }
 });
 
@@ -76,7 +79,10 @@ class YardSpaceTable extends React.Component {
 
   handleButtonClick(){
     let containerNumberToShow = +document.getElementById('containernumber').value;
-    this.setState({ containerNumberToShow });
+    let levelToShow = Math.ceil(containerNumberToShow/100);
+    let levelFilter = `Level ${levelToShow}`;
+    this.setState({ level: levelToShow, containerNumberToShow });
+    this.props.handleSidebarFilterToggle(levelFilter)();
   }
 
   renderTableColumns(numAr){

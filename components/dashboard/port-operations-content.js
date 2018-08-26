@@ -77,7 +77,7 @@ class PortOperationsContent extends React.Component {
   };
 
   render() {
-    const { classes, theme, checkedFilters } = this.props;
+    const { classes, theme, checkedFilters, handleSidebarFilterToggle } = this.props;
     const transitionDuration = {
       enter: theme.transitions.duration.enteringScreen,
       exit: theme.transitions.duration.leavingScreen,
@@ -140,7 +140,9 @@ class PortOperationsContent extends React.Component {
           
           <TabContainer dir={theme.direction}>
             <React.Fragment>
-              <YardSpaceTable checkedFilters={checkedFilters} />
+              <YardSpaceTable 
+                checkedFilters={checkedFilters} 
+                handleSidebarFilterToggle={handleSidebarFilterToggle} />
             </React.Fragment>
           </TabContainer>
           <TabContainer dir={theme.direction}>

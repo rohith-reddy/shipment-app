@@ -350,7 +350,10 @@ class Dashboard extends React.Component {
         content = <MapOperations />;
         break;
       case 'port_operations':
-        content = <PortOperationsContent checkedFilters={checkedFilters} handleSidebarFilterChange={this.handleSidebarFilterChange} />;
+        content = <PortOperationsContent 
+                    checkedFilters={checkedFilters} 
+                    handleSidebarFilterChange={this.handleSidebarFilterChange} 
+                    handleSidebarFilterToggle={this.handleSidebarFilterToggle} />;
         break;
       case 'transport':
         content = <PortOperationsContent />;

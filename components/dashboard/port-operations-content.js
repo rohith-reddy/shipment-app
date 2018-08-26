@@ -11,6 +11,7 @@ import Zoom from '@material-ui/core/Zoom';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
+import SearchIcon from '@material-ui/icons/Search';
 import UpIcon from '@material-ui/icons/KeyboardArrowUp';
 import green from '@material-ui/core/colors/green';
 import Divider from '@material-ui/core/Divider';
@@ -23,7 +24,7 @@ import ToBeAllocatedTable from './to-be-allocated-table';
 import MaintainceAllocatedTable from './maintaince-trailers-table';
 import MaintainceToBeAllocatedTable from './maintaince-cranes-table';
 
-
+import Input from "@material-ui/core/Input";
 
 function TabContainer(props) {
   const { children, dir } = props;
@@ -56,6 +57,34 @@ const styles = theme => ({
     color: theme.palette.common.white,
     backgroundColor: green[500],
   },
+  searchWrapper: {
+    [theme.breakpoints.down("sm")]: {
+      width: "-webkit-fill-available",
+      margin: "10px 15px 0"
+    },
+    display: "inline-block"
+  },
+  margin: {
+    zIndex: "4",
+    margin: "0"
+  },  
+  search: {
+    "& > div": {
+      marginTop: "0"
+    },
+    [theme.breakpoints.down("sm")]: {
+      margin: "10px 15px !important",
+      float: "none !important",
+      paddingTop: "1px",
+      paddingBottom: "1px",
+      padding: "0!important",
+      width: "60%",
+      marginTop: "40px",
+      "& input": {
+        color: "#FFFFFF"
+      }
+    }
+  },
 });
 
 class PortOperationsContent extends React.Component {
@@ -79,6 +108,10 @@ class PortOperationsContent extends React.Component {
   handleChangeIndex = index => {
     this.setState({ value: index });
   };
+
+  handleGetTitleOfAllocatedTable = (element) => {
+    return ['JNPCT Main Berth', 'NSICT', 'NSIGT', 'APMT', 'BMCT'].indexOf(element) !== -1;
+  }
 
   render() {
     const { classes, theme, checkedFilters } = this.props;
@@ -144,7 +177,24 @@ class PortOperationsContent extends React.Component {
           <TabContainer onClick={() => console.log('bla')} dir={theme.direction}>CONTAINER YARD SPACE MANAGEMENT</TabContainer>
           <TabContainer dir={theme.direction}>
             <React.Fragment>
-              <AllocatedTable />
+            <div className={classes.searchWrapper}>
+              <Input
+                formControlProps={{
+                  className: classes.margin + " " + classes.search
+                }}
+                inputProps={{
+                  placeholder: "Search",
+                  inputProps: {
+                    "aria-label": "Search"
+                  }
+                }}
+              />
+              <Button color="white" aria-label="edit" justIcon round>
+                <SearchIcon />
+              </Button>
+            </div>
+              <AllocatedTable title={
+                checkedFilters[checkedFilters.findIndex(this.handleGetTitleOfAllocatedTable)]}/>
               <CssBaseline />
               <Divider />
               <ToBeAllocatedTable />
@@ -160,10 +210,10 @@ class PortOperationsContent extends React.Component {
           </TabContainer>
           <TabContainer dir={theme.direction}>
             <React.Fragment>
-              {checkedFilters.indexOf('Trailers') !== -1 && <MaintainceAllocatedTable />}
+              {checkedFilters.indexOf('Cranes') !== -1 && <MaintainceToBeAllocatedTable />}
               <CssBaseline />
               <Divider />
-              {checkedFilters.indexOf('Cranes') !== -1 && <MaintainceToBeAllocatedTable />}
+              {checkedFilters.indexOf('Trailers') !== -1 && <MaintainceAllocatedTable />}
             </React.Fragment>
           </TabContainer>
         </SwipeableViews>

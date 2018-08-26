@@ -293,11 +293,15 @@ class Dashboard extends React.Component {
   }
 
   handleSidebarFilterToggle = value => () => {
-    const { checkedFilters } = this.state;
+    const { checkedFilters, currentSidebarFilter } = this.state;
     const currentIndex = checkedFilters.indexOf(value);
-    const newChecked = [...checkedFilters];
+    let newChecked = [...checkedFilters];
 
     if (currentIndex === -1) {
+      if (currentSidebarFilter === 'berth_allocation') {
+        var valuesToRemove = ['JNPCT Main Berth', 'NSICT', 'NSIGT', 'APMT', 'BMCT'];
+        newChecked = newChecked.filter(val => !valuesToRemove.includes(val));
+      }
       newChecked.push(value);
     } else {
       newChecked.splice(currentIndex, 1);

@@ -78,6 +78,9 @@ class NestedList extends React.Component {
                 tabIndex={-1}
                 disableRipple
               />
+                {/* <Radio
+                  checked={checkedFilters.indexOf(value) !== -1}
+                /> */}
               <ListItemText primary={value} />
             </ListItem>
           ))}

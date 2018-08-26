@@ -152,7 +152,7 @@ let EventsTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="title" id="tableTitle">
-            Ships
+            Cranes
           </Typography>
         )}
       </div>

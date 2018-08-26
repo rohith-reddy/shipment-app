@@ -152,7 +152,7 @@ let EventsTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="title" id="tableTitle">
-            Ships
+            Trailers
           </Typography>
         )}
       </div>
@@ -179,7 +179,8 @@ EventsTableToolbar = withStyles(toolbarStyles)(EventsTableToolbar);
 
 const styles = theme => ({
   root: {
-    width: '100%'
+    width: '100%',
+    marginTop: 24
   },
   table: {
     minWidth: 400,

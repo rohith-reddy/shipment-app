@@ -41,7 +41,8 @@ const styles = theme => ({
   containernumber: {
     height: '35px',
     margin: '0 0 20px 70px',
-    width: '250px'
+    width: '250px',
+    textAlign: 'center'
   },
   yardspacebtn: {
     height: '25px',

@@ -154,7 +154,8 @@ class Dashboard extends React.Component {
       'Logistic2',
       //maintaince
       'Cranes', 
-    ]
+    ],
+    selectedStep: {}
   };
 
   componentDidMount() {
@@ -295,8 +296,8 @@ class Dashboard extends React.Component {
     });
   }
 
-  clickStep = () => {
-    alert('step');
+  clickStep = (slug) => {
+    this.setState({ selectedStep: slug });
   }
 
   handleSidebarFilterToggle = value => () => {
@@ -345,13 +346,13 @@ class Dashboard extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { notifications, selectedTab, currentSidebarFilter, checkedFilters } = this.state;
+    const { notifications, selectedTab, currentSidebarFilter, checkedFilters, selectedStep } = this.state;
 
     let content;
 
     switch (selectedTab) {
       case 'container_information_system':
-        content = <ContainerInfoSystemContent classes={classes} clickStep={this.clickStep} />;
+        content = <ContainerInfoSystemContent classes={classes} clickStep={this.clickStep} selectedStep={selectedStep} />;
         break;
       case 'map_operations':
         content = <MapOperations />;
@@ -501,7 +502,7 @@ const dummyTimelineInfoMapped = dummyTimelineInfo.map((info, index) => {
   });
 });
 
-const ContainerInfoSystemContent = ({ classes, clickStep }) => (
+const ContainerInfoSystemContent = ({ classes, clickStep, selectedStep }) => (
   <React.Fragment>
     {/* <Typography variant="display1" gutterBottom>
       Orders
@@ -537,11 +538,11 @@ const ContainerInfoSystemContent = ({ classes, clickStep }) => (
     <div style={{marginTop: 50}}/>
     <Grid container spacing={24}>
       <Grid item xs={6}>
-        <EventsTable />
+        <EventsTable clickStep={clickStep} />
       </Grid>
-      <Grid item xs={6}>
-        <FileUploadCard />
-      </Grid>
+      { Object.getOwnPropertyNames(selectedStep).length > 0 && <Grid item xs={6}>
+        <FileUploadCard selectedStep={selectedStep} />
+      </Grid> }
     </Grid>
     {/* <GridList cellHeight={300} spacing={1} style={{marginTop: 100}}>
       <GridListTile key="some table1" cols="1" rows="1">

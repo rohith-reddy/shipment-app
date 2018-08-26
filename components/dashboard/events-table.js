@@ -72,7 +72,7 @@ class ToBeAllocatedTable extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, clickStep } = this.props;
     const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
@@ -82,7 +82,7 @@ class ToBeAllocatedTable extends React.Component {
             <div style={{display: 'inline-block', content: '""', position: 'absolute', top: 0, left: '3.5px', width: 25, borderRadius: 25, height: 'calc(100%)', backgroundColor: '#bafc9c'}} />
               {data.map(row => {
                 return (
-                  <li style={{cursor:'pointer', paddingBottom: 15, minHeight: 55, position: 'relative', counterIncrement: 'list'}}><div>
+                  <li onClick={(e)=>{clickStep(row)}} style={{cursor:'pointer', paddingBottom: 15, minHeight: 55, position: 'relative', counterIncrement: 'list'}}><div>
                   {row.label} {row.date && `(${row.date})` }</div><div>
                   <div className={row.date ? classes.stepGreen : classes.stepRed} style={{borderBottomLeftRadius: '50%', borderBottomRightRadius: '50%', borderTopLeftRadius: '50%', borderTopRightRadius: '50%', boxSizing: 'border-box', color: 'rgb(0, 147, 69)', content: '""', display: 'block', fontSize: 10, height: 18, left: '-38px', paddingTop: 2, position: 'absolute', textAlign: 'center', top: '3.5px', width: 19}} />
                   </div>

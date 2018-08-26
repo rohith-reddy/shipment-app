@@ -32,6 +32,8 @@ import ContainerIcon from '@material-ui/icons/Store';
 import VesselIcon from '@material-ui/icons/Waves';
 import RailIcon from '@material-ui/icons/DirectionsRailway';
 import FilterIcon from '@material-ui/icons/FilterList';
+import TransportContent from '../components/dashboard/transport-content';
+import SidebarList from '../components/dashboard/sidebar-list';
 
 import Notifications from '../components/notification';
 
@@ -159,7 +161,8 @@ class Dashboard extends React.Component {
       //container yard space
       'Level 1'
     ],
-    selectedStep: {}
+    selectedStep: {},
+    checkedTabIndex: 0 // For side filter tabs in Transport
   };
 
   componentDidMount() {
@@ -237,7 +240,7 @@ class Dashboard extends React.Component {
         <MainListItems
           checkedFilters={this.state.checkedFilters}
           handleToggle={this.handleSidebarFilterToggle}
-          icon={<TruckIcon />}
+          icon={<FilterIcon />}
           title="Import Yard"
           options={['Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5']}
           open={true}
@@ -248,7 +251,7 @@ class Dashboard extends React.Component {
         <MainListItems
           checkedFilters={this.state.checkedFilters}
           handleToggle={this.handleSidebarFilterToggle}
-          icon={<CraneIcon />}
+          icon={<FilterIcon />}
           title="Export Yard"
           options={['Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5']}
         />
@@ -321,6 +324,19 @@ class Dashboard extends React.Component {
     )
   }
 
+  transportFilterNode = () => {
+    return(
+      <React.Fragment>
+        <SidebarList
+          icon={<FilterIcon />}
+          options={['Filter A', 'Filter B', 'Filter C']}
+          checkedTabIndex={this.state.checkedTabIndex}
+          handleClick={this.handleTabClick}
+        />
+      </React.Fragment>
+    );
+  }
+
   handleSidebarFilterChange = (currentSidebarFilter) => {
     this.setState({
       currentSidebarFilter
@@ -373,10 +389,14 @@ class Dashboard extends React.Component {
       case 'port_operations':
         return this.berthAllocationFilterNode();
       case 'transport':
-        return this.berthAllocationFilterNode();
+        return this.transportFilterNode();
       default:
         break;
     }
+  }
+
+  handleTabClick = index => {
+    this.setState({ checkedTabIndex: index });
   }
 
   render() {
@@ -399,7 +419,9 @@ class Dashboard extends React.Component {
                     handleSidebarFilterToggle={this.handleSidebarFilterToggle} />;
         break;
       case 'transport':
-        content = <PortOperationsContent />;
+        content = <TransportContent 
+                    checkedTabIndex={this.state.checkedTabIndex}
+                  />;
         break;
     }
 
@@ -469,10 +491,17 @@ class Dashboard extends React.Component {
                 className={
                   selectedTab === 'transport' && classes.selectedTab || ''
                 }
+<<<<<<< HEAD
                 onClick={() => this.setState({
                   selectedTab: 'transport',
                   currentSidebarFilter: 'transport' 
                 })}
+=======
+                onClick={() => this.setState({ 
+                      selectedTab: 'transport',
+                      currentSidebarFilter: 'transport' 
+                    })}
+>>>>>>> transport section #1
               >
                 TRANSPORT
               </Button>

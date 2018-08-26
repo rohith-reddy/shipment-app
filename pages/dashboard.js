@@ -156,6 +156,8 @@ class Dashboard extends React.Component {
       'Logistic2',
       //maintaince
       'Cranes', 
+      //container yard space
+      'Level 1'
     ],
     selectedStep: {}
   };
@@ -340,8 +342,12 @@ class Dashboard extends React.Component {
         newChecked = newChecked.filter(val => !valuesToRemove.includes(val));
       }
       newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
+    }else{
+      if (currentIndex === -1) {
+        newChecked.push(value);
+      } else {
+        newChecked.splice(currentIndex, 1);
+      }
     }
 
     this.setState({
@@ -448,10 +454,10 @@ class Dashboard extends React.Component {
                 className={
                   selectedTab === 'port_operations' && classes.selectedTab || ''
                 }
-                onClick={() => this.setState({
-                  selectedTab: 'port_operations',
-                  currentSidebarFilter: 'port_operations' 
-              })}
+                onClick={() => this.setState({ 
+                      selectedTab: 'port_operations',
+                      currentSidebarFilter: 'container_and_space_management' 
+                    })}
               >
                 PORT OPERATIONS
               </Button>

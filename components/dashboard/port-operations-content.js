@@ -175,7 +175,7 @@ class PortOperationsContent extends React.Component {
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          {/*<TabContainer onClick={() => console.log('bla')} dir={theme.direction}>CONTAINER YARD SPACE MANAGEMENT</TabContainer>*/}
+          
           <TabContainer dir={theme.direction}>
             <React.Fragment>
             <div className={classes.searchWrapper}>
@@ -199,9 +199,16 @@ class PortOperationsContent extends React.Component {
               <CssBaseline />
               <Divider />
               <ToBeAllocatedTable /> */}
-              <YardSpaceTable />
+
+              <YardSpaceTable checkedFilters={checkedFilters} />
+            </React.Fragment>
+          </TabContainer>
+          <TabContainer dir={theme.direction}>
+            <React.Fragment>
+              {checkedFilters.indexOf('Trucks') !== -1 && <AllocatedTable />}
               <CssBaseline />
               <Divider />
+              {checkedFilters.indexOf('Cranes') !== -1 && <ToBeAllocatedTable />}
             </React.Fragment>
           </TabContainer>
           <TabContainer dir={theme.direction}>

@@ -324,7 +324,7 @@ class Dashboard extends React.Component {
       <React.Fragment>
         <SidebarList
           icon={<FilterIcon />}
-          options={['Filter A', 'Filter B', 'Filter C']}
+          options={['Train Status', 'Rake Allocation', 'Upcoming Trains']}
           checkedTabIndex={this.state.checkedTabIndex}
           handleClick={this.handleTabClick}
         />

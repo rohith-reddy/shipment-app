@@ -20,6 +20,17 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 import AllocatedTable from './allocated-table';
 import ToBeAllocatedTable from './to-be-allocated-table';
+import YardSpaceTable from './yard-space';
+
+import MaintainceAllocatedTable from './maintaince-trailers-table';
+import MaintainceToBeAllocatedTable from './maintaince-cranes-table';
+
+import LogisticsSTSCTable from './logistics-stsc-table';
+import LogisticsRMGCTable from './logistics-rmgc-table';
+import LogisticsRTGCTable from './logistics-rtgc-table';
+
+
+import Input from "@material-ui/core/Input";
 
 import MaintainceAllocatedTable from './maintaince-trailers-table';
 import MaintainceToBeAllocatedTable from './maintaince-cranes-table';
@@ -121,7 +132,7 @@ class PortOperationsContent extends React.Component {
   }
 
   render() {
-    const { classes, theme, checkedFilters } = this.props;
+    const { classes, theme, checkedFilters, handleSidebarFilterToggle } = this.props;
     const transitionDuration = {
       enter: theme.transitions.duration.enteringScreen,
       exit: theme.transitions.duration.leavingScreen,
@@ -181,9 +192,69 @@ class PortOperationsContent extends React.Component {
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          <TabContainer onClick={() => console.log('bla')} dir={theme.direction}>CONTAINER YARD SPACE MANAGEMENT</TabContainer>
+          
           <TabContainer dir={theme.direction}>
             <React.Fragment>
+            <div className={classes.searchWrapper}>
+              <Input
+                formControlProps={{
+                  className: classes.margin + " " + classes.search
+                }}
+                inputProps={{
+                  placeholder: "Search",
+                  inputProps: {
+                    "aria-label": "Search"
+                  }
+                }}
+              />
+              <Button color="white" aria-label="edit" justIcon round>
+                <SearchIcon />
+              </Button>
+            </div>
+              <AllocatedTable
+                title={
+                  checkedFilters[checkedFilters.findIndex(this.handleGetTitleOfAllocatedTable)]
+                }
+              />
+              <CssBaseline />
+              <Divider />
+              <ToBeAllocatedTable />
+              <YardSpaceTable 
+                checkedFilters={checkedFilters} 
+                handleSidebarFilterToggle={handleSidebarFilterToggle} />
+            </React.Fragment>
+          </TabContainer>
+          <TabContainer dir={theme.direction}>
+            <React.Fragment>
+              <div className={classes.searchWrapper}>
+                <Input
+                  formControlProps={{
+                    className: classes.margin + " " + classes.search
+                  }}
+                  inputProps={{
+                    placeholder: "Search",
+                    inputProps: {
+                      "aria-label": "Search"
+                    }
+                  }}
+                />
+                <Button color="white" aria-label="edit" justIcon round>
+                  <SearchIcon />
+                </Button>
+              </div>
+              <div className={classes.clearFix} />
+              {checkedFilters.indexOf('Ship to Shore Cranes') !== -1 && <LogisticsSTSCTable />}
+              {checkedFilters.indexOf('RTGC') !== -1 && <LogisticsRTGCTable />}
+              {checkedFilters.indexOf('RMGC') !== -1 && <LogisticsRMGCTable />}
+              {/* <CssBaseline /> */}
+              {/* <Divider /> */}
+              {/* {checkedFilters.indexOf('Logistic2') !== -1 && <ToBeAllocatedTable />} */}
+              {checkedFilters.indexOf('Trucks') !== -1 && <AllocatedTable />}
+              <CssBaseline />
+              <Divider />
+              {checkedFilters.indexOf('Cranes') !== -1 && <ToBeAllocatedTable />}
+              {/* {checkedFilters.indexOf('Allocated') !== -1 && <AllocatedTable />} */}
+              <AllocatedTable />
             <div className={classes.searchWrapper}>
               <Input
                 formControlProps={{

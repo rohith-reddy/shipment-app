@@ -32,6 +32,8 @@ import ContainerIcon from '@material-ui/icons/Store';
 import VesselIcon from '@material-ui/icons/Waves';
 import RailIcon from '@material-ui/icons/DirectionsRailway';
 import FilterIcon from '@material-ui/icons/FilterList';
+import TransportContent from '../components/dashboard/transport-content';
+import SidebarList from '../components/dashboard/sidebar-list';
 
 import Notifications from '../components/notification';
 
@@ -145,15 +147,21 @@ class Dashboard extends React.Component {
       'Vessel 4',
       'Vessel 5',
       //berth allocation
+      'Allocated',
+      'To be allocated',
+      //container yard 
       'JNPCT Main Berth', 
       //logistics
       'Logistic1',
       'Logistic2',
+      //container yard space
+      'Level 1',
       //maintaince
       'Cranes', 
       //logistics
       'Ship to Shore Cranes'
-    ]
+    ],
+    checkedTabIndex: 0 // For side filter tabs in Transport
   };
 
   componentDidMount() {
@@ -193,6 +201,33 @@ class Dashboard extends React.Component {
         <List>{<MainListItems checkedFilters={this.state.checkedFilters} handleToggle={this.handleSidebarFilterToggle} icon={<VesselIcon />} title="VESSEL" options={[7, 8]} />}</List>
         <Divider />
         <List>{<MainListItems checkedFilters={this.state.checkedFilters} handleToggle={this.handleSidebarFilterToggle} icon={<RailIcon />} title="RAIL" options={[9, 10]} />}</List>
+      </React.Fragment>
+    )
+  }
+
+  containerYardSpaceFilterNode = () => {
+    return (
+      <React.Fragment>
+        <List>{
+          <MainListItems
+            checkedFilters={this.state.checkedFilters}
+            handleToggle={this.handleSidebarFilterToggle}
+            icon={<FilterIcon />}
+            title="Import Yard"
+            options={['Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5']}
+            open={true}
+          />
+        }</List>
+        <Divider />
+        <List>{
+          <MainListItems
+            checkedFilters={this.state.checkedFilters}
+            handleToggle={this.handleSidebarFilterToggle}
+            icon={<FilterIcon />}
+            title="Export Yard"
+            options={['Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5']}
+          />
+        }</List>
       </React.Fragment>
     )
   }
@@ -281,6 +316,19 @@ class Dashboard extends React.Component {
     )
   }
 
+  transportFilterNode = () => {
+    return(
+      <React.Fragment>
+        <SidebarList
+          icon={<FilterIcon />}
+          options={['Train Status', 'Rake Allocation', 'Upcoming Trains']}
+          checkedTabIndex={this.state.checkedTabIndex}
+          handleClick={this.handleTabClick}
+        />
+      </React.Fragment>
+    );
+  }
+
   handleSidebarFilterChange = (currentSidebarFilter) => {
     this.setState({
       currentSidebarFilter
@@ -308,13 +356,22 @@ class Dashboard extends React.Component {
           'Trailers',
           'Ship to Shore Cranes',
           'RTGC',
-          'RMGC'
+          'RMGC',
+          'Level 1',
+          'Level 2', 
+          'Level 3', 
+          'Level 4', 
+          'Level 5'
         ];
         newChecked = newChecked.filter(val => !valuesToRemove.includes(val));
       }
       newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
+    }else{
+      if (currentIndex === -1) {
+        newChecked.push(value);
+      } else {
+        newChecked.splice(currentIndex, 1);
+      }
     }
 
     this.setState({
@@ -339,10 +396,14 @@ class Dashboard extends React.Component {
       case 'port_operations':
         return this.berthAllocationFilterNode();
       case 'transport':
-        return this.berthAllocationFilterNode();
+        return this.transportFilterNode();
       default:
         break;
     }
+  }
+
+  handleTabClick = index => {
+    this.setState({ checkedTabIndex: index });
   }
 
   render() {
@@ -359,10 +420,15 @@ class Dashboard extends React.Component {
         content = <MapOperations />;
         break;
       case 'port_operations':
-        content = <PortOperationsContent checkedFilters={checkedFilters} handleSidebarFilterChange={this.handleSidebarFilterChange} />;
+        content = <PortOperationsContent 
+                    checkedFilters={checkedFilters} 
+                    handleSidebarFilterChange={this.handleSidebarFilterChange} 
+                    handleSidebarFilterToggle={this.handleSidebarFilterToggle} />;
         break;
       case 'transport':
-        content = <PortOperationsContent />;
+        content = <TransportContent 
+                    checkedTabIndex={this.state.checkedTabIndex}
+                  />;
         break;
     }
 

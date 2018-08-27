@@ -20,11 +20,10 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 
 let counter = 0;
-function createData(name, loa, berthAllocated, berthingTime, sailTime, imp, exp) {
+function createData(crane, currentPosition, scheduledMaintenance, currentStatus, action, remarks) {
   counter += 1;
-  return { id: counter, name, loa, berthAllocated, berthingTime, sailTime, imp, exp };
+  return { id: counter, crane, currentPosition, scheduledMaintenance, currentStatus, action, remarks };
 }
-
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -41,17 +40,15 @@ function getSorting(order, orderBy) {
 }
 
 const rows = [
-  { id: 'serial number', numeric: false, disablePadding: false, label: 'Serial number' },
-  { id: 'vessel number', numeric: false, disablePadding: true, label: 'Vessel number' },
-  { id: 'loa', numeric: false, disablePadding: false, label: 'LOA' },
-  { id: 'berth allocated', numeric: false, disablePadding: true, label: 'Berth allocated' },
-  { id: 'berthing time', numeric: false, disablePadding: true, label: 'Berthing time' },
-  { id: 'estimated sailing time', numeric: false, disablePadding: true, label: 'Estimated Sail Time' },
-  { id: 'imp', numeric: true, disablePadding: false, label: 'IMP' },
-  { id: 'exp', numeric: true, disablePadding: false, label: 'EXP' },
+  { id: '2', numeric: false, disablePadding: false, label: 'Crane' },
+  { id: '3', numeric: false, disablePadding: false, label: 'Current Position' },
+  { id: '6', numeric: false, disablePadding: false, label: 'Scheduled Maintenance' },
+  { id: '5', numeric: false, disablePadding: false, label: 'Current status' },
+  { id: '8', numeric: false, disablePadding: false, label: 'Action' },
+  { id: '9', numeric: false, disablePadding: false, label: 'Remarks' },
 ];
 
-class EnhancedTableHead extends React.Component {
+class EventsTableHead extends React.Component {
   createSortHandler = property => event => {
     this.props.onRequestSort(event, property);
   };
@@ -62,6 +59,14 @@ class EnhancedTableHead extends React.Component {
     return (
       <TableHead>
         <TableRow>
+          <TableCell>
+            {/* <Checkbox
+              indeterminate={numSelected > 0 && numSelected < rowCount}
+              checked={numSelected === rowCount}
+              onChange={onSelectAllClick}
+            /> */}
+            Serial number
+          </TableCell>
           {rows.map(row => {
             return (
               <TableCell
@@ -92,7 +97,7 @@ class EnhancedTableHead extends React.Component {
   }
 }
 
-EnhancedTableHead.propTypes = {
+EventsTableHead.propTypes = {
   numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   onSelectAllClick: PropTypes.func.isRequired,
@@ -122,15 +127,15 @@ const toolbarStyles = theme => ({
     color: theme.palette.text.secondary,
   },
   lastUpdated: {
-    minWidth: 280,
+      minWidth: 280,
   },
   title: {
     flex: '0 0 auto',
   },
 });
 
-let EnhancedTableToolbar = props => {
-  const { numSelected, classes, title } = props;
+let EventsTableToolbar = props => {
+  const { numSelected, classes } = props;
 
   return (
     <Toolbar
@@ -145,7 +150,7 @@ let EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="title" id="tableTitle">
-            {title || 'JNPCT Main Berth Operations'}
+            Rubber Type Grantry Cranes (RTGC)
           </Typography>
         )}
       </div>
@@ -163,38 +168,43 @@ let EnhancedTableToolbar = props => {
   );
 };
 
-EnhancedTableToolbar.propTypes = {
+EventsTableToolbar.propTypes = {
   classes: PropTypes.object.isRequired,
   numSelected: PropTypes.number.isRequired,
 };
 
-EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
+EventsTableToolbar = withStyles(toolbarStyles)(EventsTableToolbar);
 
 const styles = theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: 24
   },
   table: {
-    minWidth: 1020,
+    minWidth: 400,
   },
   tableWrapper: {
     overflowX: 'auto',
   },
 });
 
-class EnhancedTable extends React.Component {
+class ToBeAllocatedTable extends React.Component {
   state = {
     order: 'asc',
-    orderBy: 'preBerthTime',
+    orderBy: 'name',
     selected: [],
     data: [
-      createData('H2339', 222.14, 'B1', "31-Dec-2017 12:00", '02-Jan-2018 4:45', 2287, 2040),
-      createData('H232', 244.94, 'B2', "01-Jan-2018 16:42", '02-Jan-2018 12:24', 1258, 697),
-      createData('H2383', 264.28, 'B3', "02-Jan-2018 7:40", '03-Jan-2018 1:10', 963, 731),
+      createData(1,2,3,4,5,6,7,8),
+      createData(1,2,3,4,5,6,7,8),
+      createData(1,2,3,4,5,6,7,8),
+      createData(1,2,3,4,5,6,7,8),
+      createData(1,2,3,4,5,6,7,8),
+      createData(1,2,3,4,5,6,7,8),
+      createData(1,2,3,4,5,6,7,8),
+      createData(1,2,3,4,5,6,7,8),
     ],
     page: 0,
-    rowsPerPage: 3,
+    rowsPerPage: 5,
   };
 
   handleRequestSort = (event, property) => {
@@ -248,16 +258,16 @@ class EnhancedTable extends React.Component {
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
   render() {
-    const { classes, title } = this.props;
+    const { classes } = this.props;
     const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
     return (
       <Paper className={classes.root}>
-        <EnhancedTableToolbar numSelected={selected.length} title={title} />
+        <EventsTableToolbar numSelected={selected.length} />
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
-            <EnhancedTableHead
+            <EventsTableHead
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
@@ -267,8 +277,8 @@ class EnhancedTable extends React.Component {
             />
             <TableBody>
               {data
-                // .sort(getSorting(order, orderBy))
-                // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .sort(getSorting(order, orderBy))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(n => {
                   const isSelected = this.isSelected(n.id);
                   return (
@@ -282,17 +292,17 @@ class EnhancedTable extends React.Component {
                       selected={isSelected}
                     >
                       <TableCell>
+                        {/* <Checkbox checked={isSelected} /> */}
                         {n.id}
                       </TableCell>
                       <TableCell component="th" scope="row">
-                        {n.name}
+                        {n.crane}
                       </TableCell>
-                      <TableCell>{n.loa}</TableCell>
-                      <TableCell padding="none">{n.berthAllocated}</TableCell>
-                      <TableCell padding="none">{n.berthingTime}</TableCell>
-                      <TableCell padding="none">{n.sailTime}</TableCell>
-                      <TableCell numeric>{n.imp}</TableCell>
-                      <TableCell numeric>{n.exp}</TableCell>
+                      <TableCell>{n.currentPosition}</TableCell>
+                      <TableCell>{n.scheduledMaintenance}</TableCell>
+                      <TableCell>{n.currentStatus}</TableCell>
+                      <TableCell>{n.action}</TableCell>
+                      <TableCell>{n.remarks}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -304,7 +314,7 @@ class EnhancedTable extends React.Component {
             </TableBody>
           </Table>
         </div>
-        {/* <TablePagination
+        <TablePagination
           component="div"
           count={data.length}
           rowsPerPage={rowsPerPage}
@@ -317,14 +327,14 @@ class EnhancedTable extends React.Component {
           }}
           onChangePage={this.handleChangePage}
           onChangeRowsPerPage={this.handleChangeRowsPerPage}
-        /> */}
+        />
       </Paper>
     );
   }
 }
 
-EnhancedTable.propTypes = {
+ToBeAllocatedTable.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(EnhancedTable);
+export default withStyles(styles)(ToBeAllocatedTable);

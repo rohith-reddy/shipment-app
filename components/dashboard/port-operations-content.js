@@ -11,6 +11,7 @@ import Zoom from '@material-ui/core/Zoom';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
+import SearchIcon from '@material-ui/icons/Search';
 import UpIcon from '@material-ui/icons/KeyboardArrowUp';
 import green from '@material-ui/core/colors/green';
 import Divider from '@material-ui/core/Divider';
@@ -20,6 +21,15 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import AllocatedTable from './allocated-table';
 import ToBeAllocatedTable from './to-be-allocated-table';
 import YardSpaceTable from './yard-space';
+
+import MaintainceAllocatedTable from './maintaince-trailers-table';
+import MaintainceToBeAllocatedTable from './maintaince-cranes-table';
+
+import LogisticsSTSCTable from './logistics-stsc-table';
+import LogisticsRMGCTable from './logistics-rmgc-table';
+import LogisticsRTGCTable from './logistics-rtgc-table';
+
+import Input from "@material-ui/core/Input";
 
 function TabContainer(props) {
   const { children, dir } = props;
@@ -52,6 +62,36 @@ const styles = theme => ({
     color: theme.palette.common.white,
     backgroundColor: green[500],
   },
+  searchWrapper: {
+    [theme.breakpoints.down("sm")]: {
+      width: "-webkit-fill-available",
+      margin: "10px 15px 0"
+    },
+    display: "inline-block",
+    width: '100%',
+    textAlign: 'right'
+  },
+  margin: {
+    zIndex: "4",
+    margin: "0"
+  },  
+  search: {
+    "& > div": {
+      marginTop: "0"
+    },
+    [theme.breakpoints.down("sm")]: {
+      margin: "10px 15px !important",
+      float: "none !important",
+      paddingTop: "1px",
+      paddingBottom: "1px",
+      padding: "0!important",
+      width: "60%",
+      marginTop: "40px",
+      "& input": {
+        color: "#FFFFFF"
+      }
+    }
+  }
 });
 
 class PortOperationsContent extends React.Component {
@@ -75,6 +115,10 @@ class PortOperationsContent extends React.Component {
   handleChangeIndex = index => {
     this.setState({ value: index });
   };
+
+  handleGetTitleOfAllocatedTable = (element) => {
+    return ['JNPCT Main Berth', 'NSICT', 'NSIGT', 'APMT', 'BMCT'].indexOf(element) !== -1;
+  }
 
   render() {
     const { classes, theme, checkedFilters, handleSidebarFilterToggle } = this.props;
@@ -140,6 +184,22 @@ class PortOperationsContent extends React.Component {
           
           <TabContainer dir={theme.direction}>
             <React.Fragment>
+            <div className={classes.searchWrapper}>
+              <Input
+                formControlProps={{
+                  className: classes.margin + " " + classes.search
+                }}
+                inputProps={{
+                  placeholder: "Search",
+                  inputProps: {
+                    "aria-label": "Search"
+                  }
+                }}
+              />
+              <Button color="white" aria-label="edit" justIcon round>
+                <SearchIcon />
+              </Button>
+            </div>
               <YardSpaceTable 
                 checkedFilters={checkedFilters} 
                 handleSidebarFilterToggle={handleSidebarFilterToggle} />
@@ -147,26 +207,63 @@ class PortOperationsContent extends React.Component {
           </TabContainer>
           <TabContainer dir={theme.direction}>
             <React.Fragment>
-              {checkedFilters.indexOf('Trucks') !== -1 && <AllocatedTable />}
+              <div className={classes.searchWrapper}>
+                <Input
+                  formControlProps={{
+                    className: classes.margin + " " + classes.search
+                  }}
+                  inputProps={{
+                    placeholder: "Search",
+                    inputProps: {
+                      "aria-label": "Search"
+                    }
+                  }}
+                />
+                <Button color="white" aria-label="edit" justIcon round>
+                  <SearchIcon />
+                </Button>
+              </div>
+              <AllocatedTable
+                title={
+                  checkedFilters[checkedFilters.findIndex(this.handleGetTitleOfAllocatedTable)]
+                }
+              />
               <CssBaseline />
               <Divider />
-              {checkedFilters.indexOf('Cranes') !== -1 && <ToBeAllocatedTable />}
+              <ToBeAllocatedTable />
             </React.Fragment>
           </TabContainer>
           <TabContainer dir={theme.direction}>
             <React.Fragment>
-              {checkedFilters.indexOf('Trucks') !== -1 && <AllocatedTable />}
-              <CssBaseline />
-              <Divider />
-              {checkedFilters.indexOf('Cranes') !== -1 && <ToBeAllocatedTable />}
+              <div className={classes.searchWrapper}>
+                <Input
+                  formControlProps={{
+                    className: classes.margin + " " + classes.search
+                  }}
+                  inputProps={{
+                    placeholder: "Search",
+                    inputProps: {
+                      "aria-label": "Search"
+                    }
+                  }}
+                />
+                <Button color="white" aria-label="edit" justIcon round>
+                  <SearchIcon />
+                </Button>
+              </div>
+              <div className={classes.clearFix} />
+              {checkedFilters.indexOf('Ship to Shore Cranes') !== -1 && <LogisticsSTSCTable />}
+              {checkedFilters.indexOf('RTGC') !== -1 && <LogisticsRTGCTable />}
+              {checkedFilters.indexOf('RMGC') !== -1 && <LogisticsRMGCTable />}
+              {/* <CssBaseline /> */}
+              {/* <Divider /> */}
+              {/* {checkedFilters.indexOf('Logistic2') !== -1 && <ToBeAllocatedTable />} */}
             </React.Fragment>
           </TabContainer>
           <TabContainer dir={theme.direction}>
             <React.Fragment>
-              {checkedFilters.indexOf('Logistic1') !== -1 && <AllocatedTable />}
-              <CssBaseline />
-              <Divider />
-              {checkedFilters.indexOf('Logistic2') !== -1 && <ToBeAllocatedTable />}
+              {checkedFilters.indexOf('Cranes') !== -1 && <MaintainceToBeAllocatedTable />}
+              {checkedFilters.indexOf('Trailers') !== -1 && <MaintainceAllocatedTable />}
             </React.Fragment>
           </TabContainer>
         </SwipeableViews>

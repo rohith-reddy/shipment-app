@@ -20,9 +20,9 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 
 let counter = 0;
-function createData(name, preBerthTime, berth, postBerthTime, sailTime) {
+function createData(name, loa, gate, eta, berth, sailTime, imp, exp) {
   counter += 1;
-  return { id: counter, name, preBerthTime, berth, postBerthTime, sailTime };
+  return { id: counter, name, loa, gate, eta, berth, sailTime, imp, exp };
 }
 
 
@@ -41,11 +41,15 @@ function getSorting(order, orderBy) {
 }
 
 const rows = [
-  { id: 'Upcoming Ships', numeric: false, disablePadding: true, label: 'Upcoming Ships' },
-  { id: 'Estimated Pre-Berth Time', numeric: true, disablePadding: false, label: 'Estimated Pre-Berthing Time' },
-  { id: 'Estimated Berth', numeric: true, disablePadding: false, label: 'Estimated Berth' },
-  { id: 'Estimated Berth Time', numeric: true, disablePadding: false, label: 'Estimated Berth Time' },
-  { id: 'Estimated Sail Time', numeric: true, disablePadding: false, label: 'Estimated Sail Time' },
+  { id: 'serial number', numeric: false, disablePadding: false, label: 'Serial number' },
+  { id: 'vessel number', numeric: false, disablePadding: true, label: 'Vessel number' },
+  { id: 'loa', numeric: false, disablePadding: false, label: 'LOA' },
+  { id: 'gate', numeric: false, disablePadding: false, label: 'Gate' },
+  { id: 'eta', numeric: false, disablePadding: false, label: 'ETA' },
+  { id: 'estimated berth', numeric: false, disablePadding: true, label: 'Est. Berth' },
+  { id: 'sail time', numeric: false, disablePadding: true, label: 'Est. Sailing time' },
+  { id: 'imp', numeric: true, disablePadding: false, label: 'IMP' },
+  { id: 'exp', numeric: true, disablePadding: false, label: 'EXP' },
 ];
 
 class ToBeAllocatedTableHead extends React.Component {
@@ -59,13 +63,13 @@ class ToBeAllocatedTableHead extends React.Component {
     return (
       <TableHead>
         <TableRow>
-          <TableCell padding="checkbox">
+          {/* <TableCell padding="checkbox">
             <Checkbox
               indeterminate={numSelected > 0 && numSelected < rowCount}
               checked={numSelected === rowCount}
               onChange={onSelectAllClick}
             />
-          </TableCell>
+          </TableCell> */}
           {rows.map(row => {
             return (
               <TableCell
@@ -125,6 +129,9 @@ const toolbarStyles = theme => ({
   actions: {
     color: theme.palette.text.secondary,
   },
+  lastUpdated: {
+      minWidth: 280,
+  },
   title: {
     flex: '0 0 auto',
   },
@@ -146,7 +153,7 @@ let ToBeAllocatedToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="title" id="tableTitle">
-            Ships
+            Expected Vessels at Main Berth JNPCT
           </Typography>
         )}
       </div>
@@ -158,13 +165,7 @@ let ToBeAllocatedToolbar = props => {
               <DeleteIcon />
             </IconButton>
           </Tooltip>
-        ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )}
+        ) : <div className={classes.lastUpdated}>Last Updated at :- 02-Jan-2018 14:00:00</div>}
       </div>
     </Toolbar>
   );
@@ -196,14 +197,19 @@ class ToBeAllocatedTable extends React.Component {
     orderBy: 'preBerthTime',
     selected: [],
     data: [
-      createData('Vessel 2', 305, 'B1', 67, 4.3),
-      createData('Vessel 3', 452, 'B8', 51, 4.9),
-      createData('Vessel 4', 262, 'B3', 24, 6.0),
-      createData('Vessel 5', 159, 'B5', 24, 4.0),
-      createData('Vessel 7', 159, 'NOT ALLOCATED', 24, 4.0),
+      createData('H2350', 255, 'Open', '02-Jan-2018 13:40', 'B1', '03-Jan-2018 18:06', 67, 4.3),
+      createData('H2371', 260, 'Open', '03-Jan-2018 12:24', 'B2', '04-Jan-2018 13:48', 1711, 1210),
+      createData('H2394', 334.45, 'Open', '03-Jan-2018 13:40', 'B3', '04-Jan-2018 10:42	', 413, 347),
+      createData('H2391', 222.14, 'Open', '04-Jan-2018 13:40', 'B1', '05-Jan-2018 04:54', 662, 792),
+      createData('H2349', 260.65, 'Closed', '04-Jan-2018 15:40', 'B3', '06-Jan-2018 02:12', 1822, 347),
+      createData('H2348', 339.62, 'Closed', '05-Jan-2018 07:36', 'B2', '06-Jan-2018 02:30', 782, 1084),
+      createData('H2421', 259.94, 'Closed', '06-Jan-2018 04:40', 'B1', '06-Jan-2018 21:00', 731, 599),
+      createData('H2373', 268.8, 'Closed', '06-Jan-2018 05:40', 'B3', '07-Jan-2018 11:15', 2345, 1182),
+      createData('H2408', 268.8, 'Closed', '07-Jan-2018 13:40', 'B2', '07-Jan-2018 22:45', 975, 4.3),
+      createData('H2390', 260.05, 'Closed', '07-Jan-2018 14:40', 'B1', '09-Jan-2018 04:12', 67, 1737),
     ],
     page: 0,
-    rowsPerPage: 5,
+    rowsPerPage: 10,
   };
 
   handleRequestSort = (event, property) => {
@@ -290,16 +296,19 @@ class ToBeAllocatedTable extends React.Component {
                       key={n.id}
                       selected={isSelected}
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox checked={isSelected} />
+                      <TableCell>
+                        {n.id}
                       </TableCell>
-                      <TableCell component="th" scope="row" padding="none">
+                      <TableCell component="th" scope="row">
                         {n.name}
                       </TableCell>
-                      <TableCell numeric>{n.preBerthTime}</TableCell>
-                      <TableCell numeric>{n.berth}</TableCell>
-                      <TableCell numeric>{n.postBerthTime}</TableCell>
-                      <TableCell numeric>{n.sailTime}</TableCell>
+                      <TableCell >{n.loa}</TableCell>
+                      <TableCell >{n.gate}</TableCell>
+                      <TableCell padding="none">{n.eta}</TableCell>
+                      <TableCell padding="none">{n.berth}</TableCell>
+                      <TableCell padding="none">{n.sailTime}</TableCell>
+                      <TableCell numeric>{n.imp}</TableCell>
+                      <TableCell numeric>{n.exp}</TableCell>
                     </TableRow>
                   );
                 })}

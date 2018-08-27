@@ -49,6 +49,9 @@ import FileUploadCard from '../components/dashboard/container-file-upload-card'
 import EventsTable from '../components/dashboard/events-table';
 import Grid from '@material-ui/core/Grid';
 
+import Input from "@material-ui/core/Input";
+import SearchIcon from '@material-ui/icons/Search';
+
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -140,18 +143,32 @@ class Dashboard extends React.Component {
     notifications: [1],
     currentSidebarFilter: 'container_information_system',
     checkedFilters: [
+      //container info system
+      'Vessel 1',
+      'Vessel 2',
+      'Vessel 3',
+      'Vessel 4',
+      'Vessel 5',
       //berth allocation
       'Allocated',
       'To be allocated',
+      //container yard 
+      'JNPCT Main Berth', 
+      'Allocated',
+      'To be allocated',
+      //container yard 
+      'JNPCT Main Berth', 
       //logistics
       'Logistic1',
       'Logistic2',
-      //maintaince
-      'Trucks', 
-      'Cranes',
       //container yard space
-      'Level 1'
+      'Level 1',
+      //maintaince
+      'Cranes', 
+      //logistics
+      'Ship to Shore Cranes'
     ],
+    selectedStep: {},
     checkedTabIndex: 0 // For side filter tabs in Transport
   };
 
@@ -197,6 +214,75 @@ class Dashboard extends React.Component {
   }
 
   containerYardSpaceFilterNode = () => {
+    return (
+      <React.Fragment>
+        <List>{
+          <MainListItems
+            checkedFilters={this.state.checkedFilters}
+            handleToggle={this.handleSidebarFilterToggle}
+            icon={<FilterIcon />}
+            title="Import Yard"
+            options={['Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5']}
+            open={true}
+          />
+        }</List>
+        <Divider />
+        <List>{
+          <MainListItems
+            checkedFilters={this.state.checkedFilters}
+            handleToggle={this.handleSidebarFilterToggle}
+            icon={<FilterIcon />}
+            title="Export Yard"
+            options={['Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5']}
+          />
+        }</List>
+      </React.Fragment>
+    )
+  }
+
+  logisticsFilterNode = () => {
+    return (
+      <React.Fragment>
+        <Divider />
+        <List>{<MainListItems open checkedFilters={this.state.checkedFilters} handleToggle={this.handleSidebarFilterToggle} icon={<CraneIcon />} title="CRANES" options={[
+          'Ship to Shore Cranes',
+          'RTGC',
+          'RMGC'
+        ]} />}</List>
+        <Divider />
+        <List>{<MainListItems open checkedFilters={this.state.checkedFilters} handleToggle={this.handleSidebarFilterToggle} icon={<TruckIcon />} title="ITVs" options={['Internal Transport Vehicle']} />}</List>
+      </React.Fragment>
+    )
+  }
+
+  containerInformationSystemFilterNode = () => {
+    const { checkedFilters } = this.state;
+    return (
+      <React.Fragment>
+        <List>
+          {
+            <MainListItems
+              checkedFilters={this.state.checkedFilters}
+              icon={<FilterIcon />}
+              title="FILTER"
+              options={[
+                'Vessel 1',
+                'Vessel 2',
+                'Vessel 3',
+                'Vessel 4',
+                'Vessel 5'
+              ]}
+              checkAllFilters
+              open={true}
+              handleToggle={this.handleSidebarFilterToggle}
+            />
+          }
+        </List>
+      </React.Fragment>
+    )
+  }
+
+  containerYardSpaceFilterNode = () => {
   return (
     <React.Fragment>
       <List>{
@@ -223,7 +309,7 @@ class Dashboard extends React.Component {
   )
 }
 
-  maintenanceFilterNode = () => {
+  containerInformationSystemFilterNode = () => {
     const { checkedFilters } = this.state;
     return (
       <React.Fragment>
@@ -233,7 +319,13 @@ class Dashboard extends React.Component {
               checkedFilters={this.state.checkedFilters}
               icon={<FilterIcon />}
               title="FILTER"
-              options={['Trucks', 'Cranes']}
+              options={[
+                'Vessel 1',
+                'Vessel 2',
+                'Vessel 3',
+                'Vessel 4',
+                'Vessel 5'
+              ]}
               checkAllFilters
               open={true}
               handleToggle={this.handleSidebarFilterToggle}
@@ -243,29 +335,7 @@ class Dashboard extends React.Component {
       </React.Fragment>
     )
   }
-
-
-  logisticsFilterNode = () => {
-    const { checkedFilters } = this.state;
-    return (
-      <React.Fragment>
-        <List>
-          {
-            <MainListItems
-              checkedFilters={this.state.checkedFilters}
-              icon={<FilterIcon />}
-              title="FILTER"
-              options={['Logistic1', 'Logistic2']}
-              checkAllFilters
-              open={true}
-              handleToggle={this.handleSidebarFilterToggle}
-            />
-          }
-        </List>
-      </React.Fragment>
-    )
-  }
-
+  
   berthAllocationFilterNode = () => {
     const { checkedFilters } = this.state;
     return (
@@ -276,7 +346,28 @@ class Dashboard extends React.Component {
               checkedFilters={this.state.checkedFilters}
               icon={<FilterIcon />}
               title="FILTER"
-              options={['Allocated', 'To be allocated']}
+              options={['JNPCT Main Berth', 'NSICT', 'NSIGT', 'APMT', 'BMCT']}
+              checkAllFilters
+              open={true}
+              handleToggle={this.handleSidebarFilterToggle}
+            />
+          }
+        </List>
+      </React.Fragment>
+    )
+  }
+  
+  maintenanceFilterNode = () => {
+    const { checkedFilters } = this.state;
+    return (
+      <React.Fragment>
+        <List>
+          {
+            <MainListItems
+              checkedFilters={this.state.checkedFilters}
+              icon={<FilterIcon />}
+              title="FILTER"
+              options={['Cranes', 'Trailers']}
               checkAllFilters
               open={true}
               handleToggle={this.handleSidebarFilterToggle}
@@ -300,20 +391,78 @@ class Dashboard extends React.Component {
     );
   }
 
+  transportFilterNode = () => {
+    return(
+      <React.Fragment>
+        <SidebarList
+          icon={<FilterIcon />}
+          options={['Train Status', 'Rake Allocation', 'Upcoming Trains']}
+          checkedTabIndex={this.state.checkedTabIndex}
+          handleClick={this.handleTabClick}
+        />
+      </React.Fragment>
+    );
+  }
+
   handleSidebarFilterChange = (currentSidebarFilter) => {
     this.setState({
       currentSidebarFilter
     });
   }
 
+  clickStep = (slug) => {
+    this.setState({ selectedStep: slug });
+  }
+
   handleSidebarFilterToggle = value => () => {
-    const { checkedFilters } = this.state;
-    const levelFiltersArray = ['Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5'];
+    const { checkedFilters, currentSidebarFilter } = this.state;
     const currentIndex = checkedFilters.indexOf(value);
     let newChecked = [...checkedFilters];
 
-    if(value.indexOf('Level') !== -1){
-      newChecked = newChecked.filter(checkedFilter => !levelFiltersArray.includes(checkedFilter));
+    if (currentIndex === -1) {
+      if (
+        currentSidebarFilter === 'container_and_space_management' || 
+        currentSidebarFilter === 'berth_allocation' || 
+        currentSidebarFilter === 'maintenance' ||
+        currentSidebarFilter === 'logistics'
+      ) {
+        let valuesToRemove;
+
+        switch (currentSidebarFilter) {
+          case 'berth_allocation':
+            valuesToRemove = [
+              'JNPCT Main Berth',
+              'NSICT',
+              'NSIGT',
+              'APMT',
+              'BMCT'
+            ];
+            break;
+          case 'maintenance':
+            valuesToRemove = [
+              'Cranes',
+              'Trailers',
+            ];
+            break;
+          case 'logistics':
+            valuesToRemove = [
+              'Ship to Shore Cranes',
+              'RTGC',
+              'RMGC',
+            ];
+            break; 
+          case 'container_and_space_management':
+            valuesToRemove = [
+              'Level 1',
+              'Level 2', 
+              'Level 3', 
+              'Level 4', 
+              'Level 5'
+            ];
+            break;
+        }
+        newChecked = newChecked.filter(val => !valuesToRemove.includes(val));
+      }
       newChecked.push(value);
     }else{
       if (currentIndex === -1) {
@@ -332,7 +481,6 @@ class Dashboard extends React.Component {
     switch (currentSidebarFilter) {
       case 'container_and_space_management':
         return this.containerYardSpaceFilterNode();
-        break;
       case 'berth_allocation':
         return this.berthAllocationFilterNode();
       case 'logistics':
@@ -340,9 +488,9 @@ class Dashboard extends React.Component {
       case 'maintenance':
         return this.maintenanceFilterNode();
       case 'container_information_system':
-        return this.mapOperationsFilterNode();
+        return this.containerInformationSystemFilterNode();
       case 'map_operations':
-        return this.berthAllocationFilterNode();
+        return this.mapOperationsFilterNode();
       case 'port_operations':
         return this.berthAllocationFilterNode();
       case 'transport':
@@ -358,13 +506,13 @@ class Dashboard extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { notifications, selectedTab, currentSidebarFilter, checkedFilters } = this.state;
+    const { notifications, selectedTab, currentSidebarFilter, checkedFilters, selectedStep } = this.state;
 
     let content;
 
     switch (selectedTab) {
       case 'container_information_system':
-        content = <ContainerInfoSystemContent classes={classes} />;
+        content = <ContainerInfoSystemContent classes={classes} clickStep={this.clickStep} selectedStep={selectedStep} />;
         break;
       case 'map_operations':
         content = <MapOperations />;
@@ -412,7 +560,10 @@ class Dashboard extends React.Component {
                     selectedTab === 'container_information_system' && classes.selectedTab || ''
                   )
                 }
-                onClick={() => this.setState({ selectedTab: 'container_information_system' })}
+                onClick={() => this.setState({ 
+                  selectedTab: 'container_information_system',
+                  currentSidebarFilter: 'container_information_system' 
+                })}
               >
                 CONTAINER INFORMATION SYSTEM
               </Button>
@@ -421,7 +572,10 @@ class Dashboard extends React.Component {
                 className={
                   selectedTab === 'map_operations' && classes.selectedTab || ''
                 }
-                onClick={() => this.setState({ selectedTab: 'map_operations' })}
+                onClick={() => this.setState({ 
+                  selectedTab: 'map_operations',
+                  currentSidebarFilter: 'map_operations' 
+                })}
               >
                 MAP OPERATIONS
               </Button>
@@ -430,10 +584,10 @@ class Dashboard extends React.Component {
                 className={
                   selectedTab === 'port_operations' && classes.selectedTab || ''
                 }
-                onClick={() => this.setState({ 
-                      selectedTab: 'port_operations',
-                      currentSidebarFilter: 'container_and_space_management' 
-                    })}
+                onClick={() => this.setState({
+                  selectedTab: 'port_operations',
+                  currentSidebarFilter: 'container_and_space_management' 
+              })}
               >
                 PORT OPERATIONS
               </Button>
@@ -442,10 +596,10 @@ class Dashboard extends React.Component {
                 className={
                   selectedTab === 'transport' && classes.selectedTab || ''
                 }
-                onClick={() => this.setState({ 
-                      selectedTab: 'transport',
-                      currentSidebarFilter: 'transport' 
-                    })}
+                onClick={() => this.setState({
+                  selectedTab: 'transport',
+                  currentSidebarFilter: 'transport' 
+                })}
               >
                 TRANSPORT
               </Button>
@@ -513,7 +667,7 @@ const dummyTimelineInfoMapped = dummyTimelineInfo.map((info, index) => {
   });
 });
 
-const ContainerInfoSystemContent = ({ classes }) => (
+const ContainerInfoSystemContent = ({ classes, clickStep, selectedStep }) => (
   <React.Fragment>
     {/* <Typography variant="display1" gutterBottom>
       Orders
@@ -528,15 +682,32 @@ const ContainerInfoSystemContent = ({ classes }) => (
       <SimpleTable />
     </div> */}
     {/* <HorizontalTimeline content={dummyTimelineInfoMapped}/> */}
+    <div style={{marginBottom: 10, textAlign: 'center', backgroundColor: '#BDD7EE', padding: 15, fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'}}>
+      <span style={{marginRight: 100}}>Blockchain for Vessel/Container Tracking</span>
+      <Input
+        formControlProps={{
+          className: classes.margin + " " + classes.search
+        }}
+        inputProps={{
+          placeholder: "Container/Vessel Search",
+          inputProps: {
+            "aria-label": "Search"
+          }
+        }}
+      />
+      <Button color="white" aria-label="edit" justIcon round>
+        <SearchIcon />
+      </Button>
+    </div>
     <BlockchainStepper />
-    <div style={{marginTop: 100}}/>
+    <div style={{marginTop: 50}}/>
     <Grid container spacing={24}>
       <Grid item xs={6}>
-        <EventsTable/>
+        <EventsTable clickStep={clickStep} />
       </Grid>
-      <Grid item xs={6}>
-        <FileUploadCard />
-      </Grid>
+      { Object.getOwnPropertyNames(selectedStep).length > 0 && <Grid item xs={6}>
+        <FileUploadCard selectedStep={selectedStep} />
+      </Grid> }
     </Grid>
     {/* <GridList cellHeight={300} spacing={1} style={{marginTop: 100}}>
       <GridListTile key="some table1" cols="1" rows="1">

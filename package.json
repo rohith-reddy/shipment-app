@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "latest",
     "@material-ui/icons": "^2.0.3",
+    "axios": "^0.18.0",
     "google-map-react": "^1.0.6",
     "immutable": "^3.8.2",
     "jss": "latest",

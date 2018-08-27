@@ -18,12 +18,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
+import axios from 'axios';
 
-let counter = 0;
-function createData(name, preBerthTime, berth, postBerthTime, sailTime) {
-  counter += 1;
-  return { id: counter, name, preBerthTime, berth, postBerthTime, sailTime };
-}
+import hostAddress from '../../constants/urlConstants';
 
 
 function desc(a, b, orderBy) {
@@ -190,20 +187,30 @@ const styles = theme => ({
 });
 
 class TrainStatus extends React.Component {
-  state = {
-    order: 'asc',
-    orderBy: 'preBerthTime',
-    selected: [],
-    data: [
-      createData('Vessel 1', 305, 'B1', 67, 4.3),
-      createData('Vessel 2', 452, 'B8', 51, 4.9),
-      createData('Vessel 3', 262, 'B3', 24, 6.0),
-      createData('Vessel 4', 159, 'B5', 24, 4.0),
-      createData('Vessel 4', 159, 'NOT ALLOCATED', 24, 4.0),
-    ],
-    page: 0,
-    rowsPerPage: 5,
-  };
+  constructor(props){
+    super(props);
+
+    this.state = {
+      order: 'asc',
+      orderBy: 'preBerthTime',
+      selected: [],
+      data: [],
+      page: 0,
+      rowsPerPage: 5,
+    };
+  }
+
+  componentDidMount = () => {
+    const hostAddress = hostAddress || '104.211.96.209:4000';
+    axios.get(`http://${hostAddress}/api/current_train_statuses`)
+      .then(response => {
+        console.log(response.data);
+        this.setState({ data: response.data });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   handleRequestSort = (event, property) => {
     const orderBy = property;
@@ -261,6 +268,8 @@ class TrainStatus extends React.Component {
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
     return (
+      <div>
+
       <Paper className={classes.root}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <div className={classes.tableWrapper}>
@@ -277,7 +286,7 @@ class TrainStatus extends React.Component {
               {data
                 .sort(getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(n => {
+                .map((n, index) => {
                   const isSelected = this.isSelected(n.id);
                   return (
                     <TableRow
@@ -286,16 +295,21 @@ class TrainStatus extends React.Component {
                       role="checkbox"
                       aria-checked={isSelected}
                       tabIndex={-1}
-                      key={n.id}
+                      key={index}
                       selected={isSelected}
                     >
                       <TableCell component="th" scope="row">
-                        {n.name}
+                        {n.line_no}
                       </TableCell>
-                      <TableCell numeric>{n.preBerthTime}</TableCell>
-                      <TableCell numeric>{n.berth}</TableCell>
-                      <TableCell numeric>{n.postBerthTime}</TableCell>
-                      <TableCell numeric>{n.sailTime}</TableCell>
+                      <TableCell numeric>{n.train_no}</TableCell>
+                      <TableCell numeric>{n.train_arrival_time}</TableCell>
+                      <TableCell numeric>{n.loading_start_time}</TableCell>
+                      <TableCell numeric>{n.est_loading_end_time}</TableCell>
+                      <TableCell numeric>{n.etd}</TableCell>
+                      <TableCell numeric>{n.no_of_rake}</TableCell>
+                      <TableCell numeric>{n.no_of_containers}</TableCell>
+                      <TableCell numeric>{n.destination}</TableCell>
+                      <TableCell numeric>{n.distance_to_be_travelled}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -322,6 +336,7 @@ class TrainStatus extends React.Component {
           onChangeRowsPerPage={this.handleChangeRowsPerPage}
         />
       </Paper>
+      </div>
     );
   }
 }

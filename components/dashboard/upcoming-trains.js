@@ -18,12 +18,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
+import axios from 'axios';
 
-let counter = 0;
-function createData(name, preBerthTime, berth, postBerthTime, sailTime) {
-  counter += 1;
-  return { id: counter, name, preBerthTime, berth, postBerthTime, sailTime };
-}
+import hostAddress from '../../constants/urlConstants';
 
 
 function desc(a, b, orderBy) {
@@ -191,16 +188,22 @@ class UpcomingTrains extends React.Component {
     order: 'asc',
     orderBy: 'preBerthTime',
     selected: [],
-    data: [
-      createData('Vessel 1', 305, 'B1', 67, 4.3),
-      createData('Vessel 2', 452, 'B8', 51, 4.9),
-      createData('Vessel 3', 262, 'B3', 24, 6.0),
-      createData('Vessel 4', 159, 'B5', 24, 4.0),
-      createData('Vessel 4', 159, 'NOT ALLOCATED', 24, 4.0),
-    ],
+    data: [],
     page: 0,
     rowsPerPage: 30,
   };
+
+  componentDidMount = () => {
+    const hostAddress = hostAddress || '104.211.96.209:4000';
+    axios.get(`http://${hostAddress}/api/upcoming_trains`)
+      .then(response => {
+        console.log(response.data);
+        this.setState({ data: response.data });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   handleRequestSort = (event, property) => {
     const orderBy = property;
@@ -274,7 +277,7 @@ class UpcomingTrains extends React.Component {
               {data
                 .sort(getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(n => {
+                .map((n, index) => {
                   const isSelected = this.isSelected(n.id);
                   return (
                     <TableRow
@@ -283,16 +286,18 @@ class UpcomingTrains extends React.Component {
                       role="checkbox"
                       aria-checked={isSelected}
                       tabIndex={-1}
-                      key={n.id}
+                      key={index}
                       selected={isSelected}
                     >
                       <TableCell component="th" scope="row">
-                        {n.name}
+                        {n.line_no}
                       </TableCell>
-                      <TableCell numeric>{n.preBerthTime}</TableCell>
-                      <TableCell numeric>{n.berth}</TableCell>
-                      <TableCell numeric>{n.postBerthTime}</TableCell>
-                      <TableCell numeric>{n.sailTime}</TableCell>
+                      <TableCell numeric>{n.train_no}</TableCell>
+                      <TableCell numeric>{n.eta}</TableCell>
+                      <TableCell numeric>{n.etd}</TableCell>
+                      <TableCell numeric>{n.no_of_rake}</TableCell>
+                      <TableCell numeric>{n.departing_station}</TableCell>
+                      <TableCell numeric>{n.container_weight}</TableCell>
                     </TableRow>
                   );
                 })}

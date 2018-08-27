@@ -278,6 +278,7 @@ class Dashboard extends React.Component {
     </React.Fragment>
   )
 }
+
   containerInformationSystemFilterNode = () => {
     const { checkedFilters } = this.state;
     return (
@@ -391,7 +392,12 @@ class Dashboard extends React.Component {
           'Trailers',
           'Ship to Shore Cranes',
           'RTGC',
-          'RMGC'
+          'RMGC',
+          'Level 1',
+          'Level 2', 
+          'Level 3', 
+          'Level 4', 
+          'Level 5'
         ];
         newChecked = newChecked.filter(val => !valuesToRemove.includes(val));
       }
@@ -412,7 +418,11 @@ class Dashboard extends React.Component {
   getFilterNode = (currentSidebarFilter) => {
     switch (currentSidebarFilter) {
       case 'container_and_space_management':
+<<<<<<< HEAD
         return this.containerYardSpaceFilterNode();
+=======
+        return this.mapOperationsFilterNode();
+>>>>>>> Add logistics screen
       case 'berth_allocation':
         return this.berthAllocationFilterNode();
       case 'logistics':

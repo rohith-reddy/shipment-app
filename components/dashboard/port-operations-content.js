@@ -91,7 +91,7 @@ const styles = theme => ({
         color: "#FFFFFF"
       }
     }
-  },
+  }
 });
 
 class PortOperationsContent extends React.Component {
@@ -240,8 +240,11 @@ class PortOperationsContent extends React.Component {
                 <SearchIcon />
               </Button>
             </div>
-              <AllocatedTable title={
-                checkedFilters[checkedFilters.findIndex(this.handleGetTitleOfAllocatedTable)]}/>
+              <AllocatedTable
+                title={
+                  checkedFilters[checkedFilters.findIndex(this.handleGetTitleOfAllocatedTable)]
+                }
+              />
               <CssBaseline />
               <Divider />
               <ToBeAllocatedTable />

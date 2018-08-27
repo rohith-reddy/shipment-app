@@ -184,6 +184,11 @@ const styles = theme => ({
   tableWrapper: {
     overflowX: 'auto',
   },
+  filterdropdown: {
+    marginBottom: '20px',
+    height: '35px',
+    width: '30%'
+  }
 });
 
 class RakeAllocation extends React.Component {
@@ -194,14 +199,18 @@ class RakeAllocation extends React.Component {
     data: [],
     page: 0,
     rowsPerPage: 30,
+    dropdownValue: "11018",
+    totalData: []
   };
 
   componentDidMount = () => {
     const hostAddress = hostAddress || '104.211.96.209:4000';
+    let data;
     axios.get(`http://${hostAddress}/api/rake_allocations`)
       .then(response => {
         console.log(response.data);
-        this.setState({ data: response.data });
+        data = response.data.filter(dataItem => dataItem.train_number == this.state.dropdownValue);
+        this.setState({ totalData: response.data, data });
       })
       .catch(error => {
         console.log(error);
@@ -258,78 +267,91 @@ class RakeAllocation extends React.Component {
 
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
+  dropdownChange = event => {
+    const data = this.state.totalData.filter(dataItem => dataItem.train_number == event.target.value);
+    this.setState({ dropdownValue: event.target.value, data });
+  }
+
   render() {
     const { classes } = this.props;
     const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
     return (
-      <Paper className={classes.root}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <div className={classes.tableWrapper}>
-          <Table className={classes.table} aria-labelledby="tableTitle">
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={this.handleSelectAllClick}
-              onRequestSort={this.handleRequestSort}
-              rowCount={data.length}
-            />
-            <TableBody>
-              {data
-                .sort(getSorting(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((n, index) => {
-                  const isSelected = this.isSelected(n.id);
-                  return (
-                    <TableRow
-                      hover
-                      onClick={event => this.handleClick(event, n.id)}
-                      role="checkbox"
-                      aria-checked={isSelected}
-                      tabIndex={-1}
-                      key={index}
-                      selected={isSelected}
-                    >
-                      <TableCell component="th" scope="row">
-                        {n.rake_number}
-                      </TableCell>
-                      <TableCell numeric>{n.container_number}</TableCell>
-                      <TableCell numeric>{n.consignment_id}</TableCell>
-                      <TableCell numeric>{n.vessel_number}</TableCell>
-                      <TableCell numeric>{n.weight}</TableCell>
-                      <TableCell numeric>{n.size}</TableCell>
-                      <TableCell numeric>{n.loading_time}</TableCell>
-                      <TableCell numeric>{n.container_out_time}</TableCell>
-                      <TableCell numeric>{n.destination}</TableCell>
-                      <TableCell numeric>{n.distance_tobe_travelled}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 49 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-        <TablePagination
-          component="div"
-          count={data.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          backIconButtonProps={{
-            'aria-label': 'Previous Page',
-          }}
-          nextIconButtonProps={{
-            'aria-label': 'Next Page',
-          }}
-          onChangePage={this.handleChangePage}
-          onChangeRowsPerPage={this.handleChangeRowsPerPage}
-        />
-      </Paper>
+      <div>
+        <select className={classes.filterdropdown} onChange={this.dropdownChange} value={this.state.dropdownValue}>
+          <option value="11018">Train No 11018</option>
+          <option value="11056">Train No 11056</option>
+          <option value="11040">Train No 11040</option>
+          <option value="11003">Train No 11003</option>
+        </select>
+        <Paper className={classes.root}>
+          <EnhancedTableToolbar numSelected={selected.length} />
+          <div className={classes.tableWrapper}>
+            <Table className={classes.table} aria-labelledby="tableTitle">
+              <EnhancedTableHead
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={this.handleSelectAllClick}
+                onRequestSort={this.handleRequestSort}
+                rowCount={data.length}
+              />
+              <TableBody>
+                {data
+                  .sort(getSorting(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((n, index) => {
+                    const isSelected = this.isSelected(n.id);
+                    return (
+                      <TableRow
+                        hover
+                        onClick={event => this.handleClick(event, n.id)}
+                        role="checkbox"
+                        aria-checked={isSelected}
+                        tabIndex={-1}
+                        key={index}
+                        selected={isSelected}
+                      >
+                        <TableCell component="th" scope="row">
+                          {n.rake_number}
+                        </TableCell>
+                        <TableCell numeric>{n.container_number}</TableCell>
+                        <TableCell numeric>{n.consignment_id}</TableCell>
+                        <TableCell numeric>{n.vessel_number}</TableCell>
+                        <TableCell numeric>{n.weight}</TableCell>
+                        <TableCell numeric>{n.size}</TableCell>
+                        <TableCell numeric>{n.loading_time}</TableCell>
+                        <TableCell numeric>{n.container_out_time}</TableCell>
+                        <TableCell numeric>{n.destination}</TableCell>
+                        <TableCell numeric>{n.distance_tobe_travelled}</TableCell>
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 49 * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+          <TablePagination
+            component="div"
+            count={data.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            backIconButtonProps={{
+              'aria-label': 'Previous Page',
+            }}
+            nextIconButtonProps={{
+              'aria-label': 'Next Page',
+            }}
+            onChangePage={this.handleChangePage}
+            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+          />
+        </Paper>
+      </div>
     );
   }
 }

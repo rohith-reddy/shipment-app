@@ -18,14 +18,14 @@ const styles = theme => ({
     marginRight: '25px'
   },
   yardspacetd: {
-    width: '75px',
+    width: '26%',
     height: '35px',
     boxSizing: 'border-box',
     border: '1px solid black',
     textAlign: 'center',
   },
   yardspacetdactive: {
-    width: '75px',
+    width: '26%',
     height: '35px',
     boxSizing: 'border-box',
     border: '1px solid black',
@@ -36,18 +36,18 @@ const styles = theme => ({
   yardspacedropdown: {
     marginBottom: '20px',
     height: '35px',
-    width: '230px'
+    width: '30%'
   },
   containernumber: {
     height: '35px',
-    margin: '0 0 20px 70px',
-    width: '250px',
+    margin: '0 0 20px 11%',
+    width: '30%',
     textAlign: 'center'
   },
   yardspacebtn: {
     height: '25px',
-    margin: '0 0 20px 45px',
-    width: '85px'
+    margin: '0 0 20px 7%',
+    width: '10%'
   }
 });
 
@@ -132,9 +132,9 @@ class YardSpaceTable extends React.Component {
     return (
       <div>
         <select className={classes.yardspacedropdown}>
-          <option value="A">Filter A</option>
-          <option value="B">Filter B</option>
-          <option value="C">Filter C</option>
+          <option value="JMY">JNPT Main Yard</option>
+          <option value="DWNS">DP World Nhava Sena</option>
+          <option value="BMCT">Bharat Mumbai Container Terminal</option>
         </select>
         <input 
           type="text" 

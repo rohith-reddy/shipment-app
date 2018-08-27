@@ -18,12 +18,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
+import axios from 'axios';
 
-let counter = 0;
-function createData(craneNumber, manufacturer, craneType, maintainceTime, upTime, action, remarks) {
-  counter += 1;
-  return { id: counter, craneNumber, manufacturer, craneType, maintainceTime, upTime, action, remarks };
-}
+import hostAddress from '../../constants/urlConstants';
 
 
 function desc(a, b, orderBy) {
@@ -45,8 +42,8 @@ const rows = [
   { id: 'Events', numeric: false, disablePadding: false, label: 'Manufacturer' },
   { id: '3', numeric: false, disablePadding: false, label: 'Type' },
   { id: '4', numeric: false, disablePadding: false, label: 'Est. maintaince time' },
-  { id: '6', numeric: false, disablePadding: false, label: 'Est. up time' },
-  { id: '5', numeric: false, disablePadding: false, label: 'Actions Required' },
+  { id: '5', numeric: false, disablePadding: false, label: 'Est. up time' },
+  { id: '6', numeric: false, disablePadding: false, label: 'Status' },
   { id: '8', numeric: false, disablePadding: false, label: 'Remarks' },
 ];
 
@@ -194,17 +191,22 @@ class ToBeAllocatedTable extends React.Component {
     order: 'asc',
     orderBy: 'name',
     selected: [],
-    data: [
-      createData(8,7,6,5,4,3,2,1),
-      createData(8,7,6,5,4,3,2,1),
-      createData(8,7,6,5,4,3,2,1),
-      createData(8,7,6,5,4,3,2,1),
-      createData(8,7,6,5,4,3,2,1),
-      createData(8,7,6,5,4,3,2,1),
-    ],
+    data: [],
     page: 0,
     rowsPerPage: 5,
   };
+
+  componentDidMount = () => {
+    const hostAddress = hostAddress || '104.211.96.209:4000';
+    axios.get(`http://${hostAddress}/api/maintenance_trailers`)
+      .then(response => {
+        console.log(response.data);
+        this.setState({ data: response.data });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   handleRequestSort = (event, property) => {
     const orderBy = property;
@@ -292,16 +294,16 @@ class ToBeAllocatedTable extends React.Component {
                     >
                       <TableCell>
                         {/* <Checkbox checked={isSelected} /> */}
-                        {n.id}
+                        {n.sr_no}
                       </TableCell>
                       <TableCell component="th" scope="row">
-                        {n.craneNumber}
+                        {n.trailer_no}
                       </TableCell>
                       <TableCell>{n.manufacturer}</TableCell>
-                      <TableCell>{n.craneType}</TableCell>
-                      <TableCell>{n.maintainceTime}</TableCell>
-                      <TableCell>{n.upTime}</TableCell>
-                      <TableCell>{n.action}</TableCell>
+                      <TableCell>{n.trailer_type}</TableCell>
+                      <TableCell>{n.est_maintenance_time}</TableCell>
+                      <TableCell>{n.est_up_time}</TableCell>
+                      <TableCell>{n.status}</TableCell>
                       <TableCell>{n.remarks}</TableCell>
                     </TableRow>
                   );

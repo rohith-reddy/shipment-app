@@ -18,12 +18,10 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
+import axios from 'axios';
 
-let counter = 0;
-function createData(crane, currentPosition, scheduledMaintenance, currentStatus, action, remarks) {
-  counter += 1;
-  return { id: counter, crane, currentPosition, scheduledMaintenance, currentStatus, action, remarks };
-}
+import hostAddress from '../../constants/urlConstants';
+
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -193,19 +191,22 @@ class ToBeAllocatedTable extends React.Component {
     order: 'asc',
     orderBy: 'name',
     selected: [],
-    data: [
-      createData(1,2,3,4,5,6,7,8),
-      createData(1,2,3,4,5,6,7,8),
-      createData(1,2,3,4,5,6,7,8),
-      createData(1,2,3,4,5,6,7,8),
-      createData(1,2,3,4,5,6,7,8),
-      createData(1,2,3,4,5,6,7,8),
-      createData(1,2,3,4,5,6,7,8),
-      createData(1,2,3,4,5,6,7,8),
-    ],
+    data: [],
     page: 0,
     rowsPerPage: 5,
   };
+
+  componentDidMount = () => {
+    const hostAddress = hostAddress || '104.211.96.209:4000';
+    axios.get(`http://${hostAddress}/api/rtg_cranes`)
+      .then(response => {
+        console.log(response.data);
+        this.setState({ data: response.data });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   handleRequestSort = (event, property) => {
     const orderBy = property;
@@ -293,14 +294,14 @@ class ToBeAllocatedTable extends React.Component {
                     >
                       <TableCell>
                         {/* <Checkbox checked={isSelected} /> */}
-                        {n.id}
+                        {n.sr_no}
                       </TableCell>
                       <TableCell component="th" scope="row">
                         {n.crane}
                       </TableCell>
-                      <TableCell>{n.currentPosition}</TableCell>
-                      <TableCell>{n.scheduledMaintenance}</TableCell>
-                      <TableCell>{n.currentStatus}</TableCell>
+                      <TableCell>{n.current_position}</TableCell>
+                      <TableCell>{n.scheduled_maintainence}</TableCell>
+                      <TableCell>{n.current_status}</TableCell>
                       <TableCell>{n.action}</TableCell>
                       <TableCell>{n.remarks}</TableCell>
                     </TableRow>

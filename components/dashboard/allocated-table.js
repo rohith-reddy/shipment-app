@@ -18,12 +18,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
+import axios from 'axios';
 
-let counter = 0;
-function createData(name, loa, berthAllocated, berthingTime, sailTime, imp, exp) {
-  counter += 1;
-  return { id: counter, name, loa, berthAllocated, berthingTime, sailTime, imp, exp };
-}
+import hostAddress from '../../constants/urlConstants';
 
 
 function desc(a, b, orderBy) {
@@ -45,8 +42,8 @@ const rows = [
   { id: 'vessel number', numeric: false, disablePadding: true, label: 'Vessel number' },
   { id: 'loa', numeric: false, disablePadding: false, label: 'LOA' },
   { id: 'berth allocated', numeric: false, disablePadding: true, label: 'Berth allocated' },
-  { id: 'berthing time', numeric: false, disablePadding: true, label: 'Berthing time' },
-  { id: 'estimated sailing time', numeric: false, disablePadding: true, label: 'Estimated Sail Time' },
+  { id: 'berthing time', numeric: false, disablePadding: false, label: 'Berthing time' },
+  { id: 'estimated sailing time', numeric: false, disablePadding: false, label: 'Estimated Sail Time' },
   { id: 'imp', numeric: true, disablePadding: false, label: 'IMP' },
   { id: 'exp', numeric: true, disablePadding: false, label: 'EXP' },
 ];
@@ -188,14 +185,22 @@ class EnhancedTable extends React.Component {
     order: 'asc',
     orderBy: 'preBerthTime',
     selected: [],
-    data: [
-      createData('H2339', 222.14, 'B1', "31-Dec-2017 12:00", '02-Jan-2018 4:45', 2287, 2040),
-      createData('H232', 244.94, 'B2', "01-Jan-2018 16:42", '02-Jan-2018 12:24', 1258, 697),
-      createData('H2383', 264.28, 'B3', "02-Jan-2018 7:40", '03-Jan-2018 1:10', 963, 731),
-    ],
+    data: [],
     page: 0,
     rowsPerPage: 3,
   };
+
+  componentDidMount = () => {
+    const hostAddress = hostAddress || '104.211.96.209:4000';
+    axios.get(`http://${hostAddress}/api/jnpct_berth_operations`)
+      .then(response => {
+        console.log(response.data);
+        this.setState({ data: response.data });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   handleRequestSort = (event, property) => {
     const orderBy = property;
@@ -282,15 +287,15 @@ class EnhancedTable extends React.Component {
                       selected={isSelected}
                     >
                       <TableCell>
-                        {n.id}
+                        {n.sr_no}
                       </TableCell>
                       <TableCell component="th" scope="row">
-                        {n.name}
+                        {n.vessel_no}
                       </TableCell>
                       <TableCell>{n.loa}</TableCell>
-                      <TableCell padding="none">{n.berthAllocated}</TableCell>
-                      <TableCell padding="none">{n.berthingTime}</TableCell>
-                      <TableCell padding="none">{n.sailTime}</TableCell>
+                      <TableCell padding="none">{n.berth_allocated}</TableCell>
+                      <TableCell padding="none">{n.berthing_time}</TableCell>
+                      <TableCell padding="none">{n.est_sailing_time}</TableCell>
                       <TableCell numeric>{n.imp}</TableCell>
                       <TableCell numeric>{n.exp}</TableCell>
                     </TableRow>

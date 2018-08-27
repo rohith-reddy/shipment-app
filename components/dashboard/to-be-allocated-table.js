@@ -18,12 +18,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
+import axios from 'axios';
 
-let counter = 0;
-function createData(name, loa, gate, eta, berth, sailTime, imp, exp) {
-  counter += 1;
-  return { id: counter, name, loa, gate, eta, berth, sailTime, imp, exp };
-}
+import hostAddress from '../../constants/urlConstants';
 
 
 function desc(a, b, orderBy) {
@@ -196,21 +193,22 @@ class ToBeAllocatedTable extends React.Component {
     order: 'asc',
     orderBy: 'preBerthTime',
     selected: [],
-    data: [
-      createData('H2350', 255, 'Open', '02-Jan-2018 13:40', 'B1', '03-Jan-2018 18:06', 67, 4.3),
-      createData('H2371', 260, 'Open', '03-Jan-2018 12:24', 'B2', '04-Jan-2018 13:48', 1711, 1210),
-      createData('H2394', 334.45, 'Open', '03-Jan-2018 13:40', 'B3', '04-Jan-2018 10:42	', 413, 347),
-      createData('H2391', 222.14, 'Open', '04-Jan-2018 13:40', 'B1', '05-Jan-2018 04:54', 662, 792),
-      createData('H2349', 260.65, 'Closed', '04-Jan-2018 15:40', 'B3', '06-Jan-2018 02:12', 1822, 347),
-      createData('H2348', 339.62, 'Closed', '05-Jan-2018 07:36', 'B2', '06-Jan-2018 02:30', 782, 1084),
-      createData('H2421', 259.94, 'Closed', '06-Jan-2018 04:40', 'B1', '06-Jan-2018 21:00', 731, 599),
-      createData('H2373', 268.8, 'Closed', '06-Jan-2018 05:40', 'B3', '07-Jan-2018 11:15', 2345, 1182),
-      createData('H2408', 268.8, 'Closed', '07-Jan-2018 13:40', 'B2', '07-Jan-2018 22:45', 975, 4.3),
-      createData('H2390', 260.05, 'Closed', '07-Jan-2018 14:40', 'B1', '09-Jan-2018 04:12', 67, 1737),
-    ],
+    data: [],
     page: 0,
     rowsPerPage: 10,
   };
+
+  componentDidMount = () => {
+    const hostAddress = hostAddress || '104.211.96.209:4000';
+    axios.get(`http://${hostAddress}/api/jnpct_expected_vessels`)
+      .then(response => {
+        console.log(response.data);
+        this.setState({ data: response.data });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   handleRequestSort = (event, property) => {
     const orderBy = property;
@@ -297,16 +295,16 @@ class ToBeAllocatedTable extends React.Component {
                       selected={isSelected}
                     >
                       <TableCell>
-                        {n.id}
+                        {n.sr_no}
                       </TableCell>
                       <TableCell component="th" scope="row">
-                        {n.name}
+                        {n.vessel_no}
                       </TableCell>
                       <TableCell >{n.loa}</TableCell>
                       <TableCell >{n.gate}</TableCell>
                       <TableCell padding="none">{n.eta}</TableCell>
-                      <TableCell padding="none">{n.berth}</TableCell>
-                      <TableCell padding="none">{n.sailTime}</TableCell>
+                      <TableCell padding="none">{n.est_berth}</TableCell>
+                      <TableCell padding="none">{n.est_sailing_time}</TableCell>
                       <TableCell numeric>{n.imp}</TableCell>
                       <TableCell numeric>{n.exp}</TableCell>
                     </TableRow>

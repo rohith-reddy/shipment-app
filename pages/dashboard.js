@@ -378,27 +378,46 @@ class Dashboard extends React.Component {
 
     if (currentIndex === -1) {
       if (
+        currentSidebarFilter === 'container_and_space_management' || 
         currentSidebarFilter === 'berth_allocation' || 
         currentSidebarFilter === 'maintenance' ||
         currentSidebarFilter === 'logistics'
       ) {
-        const valuesToRemove = [
-          'JNPCT Main Berth',
-          'NSICT',
-          'NSIGT',
-          'APMT',
-          'BMCT',
-          'Cranes',
-          'Trailers',
-          'Ship to Shore Cranes',
-          'RTGC',
-          'RMGC',
-          'Level 1',
-          'Level 2', 
-          'Level 3', 
-          'Level 4', 
-          'Level 5'
-        ];
+        let valuesToRemove;
+
+        switch (currentSidebarFilter) {
+          case 'berth_allocation':
+            valuesToRemove = [
+              'JNPCT Main Berth',
+              'NSICT',
+              'NSIGT',
+              'APMT',
+              'BMCT'
+            ];
+            break;
+          case 'maintenance':
+            valuesToRemove = [
+              'Cranes',
+              'Trailers',
+            ];
+            break;
+          case 'logistics':
+            valuesToRemove = [
+              'Ship to Shore Cranes',
+              'RTGC',
+              'RMGC',
+            ];
+            break; 
+          case 'container_and_space_management':
+            valuesToRemove = [
+              'Level 1',
+              'Level 2', 
+              'Level 3', 
+              'Level 4', 
+              'Level 5'
+            ];
+            break;
+        }
         newChecked = newChecked.filter(val => !valuesToRemove.includes(val));
       }
       newChecked.push(value);

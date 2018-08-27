@@ -180,7 +180,6 @@ EventsTableToolbar = withStyles(toolbarStyles)(EventsTableToolbar);
 const styles = theme => ({
   root: {
     width: '100%',
-    // marginTop: 24
   },
   table: {
     minWidth: 400,

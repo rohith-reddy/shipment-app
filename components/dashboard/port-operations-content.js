@@ -200,14 +200,6 @@ class PortOperationsContent extends React.Component {
                 <SearchIcon />
               </Button>
             </div>
-              {/* <AllocatedTable
-                title={
-                  checkedFilters[checkedFilters.findIndex(this.handleGetTitleOfAllocatedTable)]
-                }
-              />
-              <CssBaseline />
-              <Divider />
-              <ToBeAllocatedTable /> */}
               <YardSpaceTable 
                 checkedFilters={checkedFilters} 
                 handleSidebarFilterToggle={handleSidebarFilterToggle} />
@@ -271,8 +263,6 @@ class PortOperationsContent extends React.Component {
           <TabContainer dir={theme.direction}>
             <React.Fragment>
               {checkedFilters.indexOf('Cranes') !== -1 && <MaintainceToBeAllocatedTable />}
-              {/* <CssBaseline /> */}
-              {/* <Divider /> */}
               {checkedFilters.indexOf('Trailers') !== -1 && <MaintainceAllocatedTable />}
             </React.Fragment>
           </TabContainer>

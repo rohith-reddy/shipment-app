@@ -11,7 +11,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
-
+import Paper from '@material-ui/core/Paper';
 import PDFModal from './pdf-modal';
 
 const styles = theme => ({
@@ -64,17 +64,69 @@ class DetailedExpansionPanel extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes,selectedStep } = this.props;
     return (
-      <div className={classes.root}>
-        <ExpansionPanel defaultExpanded>
+      <Paper className={classes.root}>
+          <div style={{padding: 30, textAlign: 'center'}}>
+          <div style={{margin: 20}}>
+            Step : <b>{selectedStep.label}</b>
+          </div>
+          <div style={{margin: 20}}>
+            Status : <b>{selectedStep.date ? "DONE" : "PENDING"}</b>
+          </div>
+
+          {selectedStep.date &&
+          <div style={{margin: 20}}>
+            Date : <b>{selectedStep.date}</b>
+          </div>
+          }
+
+          {!selectedStep.date &&
+            <div>
+              <div className={classNames(classes.column, classes.helper)}>
+                <input
+                  className={classes.fileInput}
+                  id="flat-button-file"
+                  multiple
+                  type="file"
+                />
+                <label htmlFor="flat-button-file">
+                  <Button component="span" className={classes.button}>
+                    <Typography variant="caption">
+                      Upload
+                    </Typography>
+                  </Button>
+                </label>
+              </div>
+              <div className={classNames(classes.column, classes.helper)}>
+                <Button variant="contained" color="primary">
+                  <Typography variant="caption" style={{color: '#fff'}}>
+                    Approve
+                  </Typography>
+                </Button>
+              </div>
+                        <ExpansionPanelActions>
+            <Button size="small"  onClick={this.handleTogglePDFModal}>
+              <Typography variant="caption">
+                  Preview
+              </Typography>
+            </Button>
+            <Button size="small" color="primary">
+              Download
+            </Button>
+          </ExpansionPanelActions>
+            </div>
+          }
+
+          </div>
+        {/*<ExpansionPanel defaultExpanded>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <div>
               <Typography variant="caption">UPLOAD VEHICLE IDENTIFICATION NUMBER</Typography>
             </div>
-            {/* <div className={classes.column}>
+            <div className={classes.column}>
               <Typography className={classes.secondaryHeading}>Select document "A"</Typography>
-            </div> */}
+            </div>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={classes.details}>
             <div className={classes.column}>
@@ -124,8 +176,8 @@ class DetailedExpansionPanel extends React.Component {
             </Button>
           </ExpansionPanelActions>
         </ExpansionPanel>
-        <PDFModal open={this.state.open} handleTogglePDFModal={this.handleTogglePDFModal}/>
-      </div>
+        <PDFModal open={this.state.open} handleTogglePDFModal={this.handleTogglePDFModal}/>*/}
+      </Paper>
     );
   }
 }

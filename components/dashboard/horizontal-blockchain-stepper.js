@@ -24,6 +24,18 @@ const styles = theme => ({
     marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit,
   },
+  stepImgCont : {
+    marginBottom: 10, textAlign: 'center', backgroundColor: '#BDD7EE', padding: 15, fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
+  },
+  stepImg : {
+    display: 'inline-block', cursor: 'pointer', position: 'relative', width: 120, height: 100, margin: '0px 20px'
+  },
+  stepImgSpan: {
+    lineHeight: 2
+  },
+  stepImgArw : {
+    display: 'inline-block'
+  }
 });
 
 function getSteps() {
@@ -163,29 +175,27 @@ class HorizontalNonLinearAlternativeLabelStepper extends React.Component {
 
     return (
       <div className={classes.root}>
-        <Stepper alternativeLabel nonLinear activeStep={activeStep}>
-          {steps.map((label, index) => {
-            const props = {};
-            const buttonProps = {};
-            if (this.isStepOptional(index)) {
-              buttonProps.optional = <Typography variant="caption">Optional</Typography>;
-            }
-            if (this.isStepSkipped(index)) {
-              props.completed = false;
-            }
-            return (
-              <Step key={label} {...props}>
-                <StepButton
-                  onClick={this.handleStep(index)}
-                  completed={this.isStepComplete(index)}
-                  {...buttonProps}
-                >
-                  {label}
-                </StepButton>
-              </Step>
-            );
-          })}
-        </Stepper>
+        <div className={classes.stepImgCont}>
+          <div className={classes.stepImg} >
+            <span className={classes.stepImgSpan}>PreBerthing</span>
+            <img src="/static/images/PreBerthingIcon.png" width={80} height={80} />
+          </div>
+          <div className={classes.stepImgArw}><img src="/static/images/ArrowIcon.svg" width={80} height={80} /></div>
+          <div className={classes.stepImg} >
+            <span className={classes.stepImgSpan}>Berthing</span>
+            <img src="/static/images/BerthingIcon.png" width={80} height={80} />
+          </div>
+          <div className={classes.stepImgArw}><img src="/static/images/ArrowIcon.svg" width={80} height={80} /></div>
+          <div className={classes.stepImg} >
+            <span className={classes.stepImgSpan}>Container Yard</span>
+            <img src="/static/images/ContainerYardIcon.png" width={80} height={80} />
+            </div>
+          <div className={classes.stepImgArw}><img src="/static/images/ArrowIcon.svg" width={80} height={80} /></div>
+          <div className={classes.stepImg} >
+            <span className={classes.stepImgSpan}>Port Out</span>
+            <img src="/static/images/PortOutIcon.svg" width={80} height={80} />
+          </div>
+        </div>
         <div>
           {/* {this.allStepsCompleted() ? (
             <div>

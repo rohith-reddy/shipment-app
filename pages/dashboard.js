@@ -382,7 +382,7 @@ class Dashboard extends React.Component {
   getFilterNode = (currentSidebarFilter) => {
     switch (currentSidebarFilter) {
       case 'container_and_space_management':
-        return this.mapOperationsFilterNode();
+        return this.containerYardSpaceFilterNode();
       case 'berth_allocation':
         return this.berthAllocationFilterNode();
       case 'logistics':
@@ -488,7 +488,7 @@ class Dashboard extends React.Component {
                 }
                 onClick={() => this.setState({
                   selectedTab: 'port_operations',
-                  currentSidebarFilter: 'port_operations' 
+                  currentSidebarFilter: 'container_and_space_management' 
               })}
               >
                 PORT OPERATIONS

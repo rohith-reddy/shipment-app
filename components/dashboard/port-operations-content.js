@@ -29,17 +29,6 @@ import LogisticsSTSCTable from './logistics-stsc-table';
 import LogisticsRMGCTable from './logistics-rmgc-table';
 import LogisticsRTGCTable from './logistics-rtgc-table';
 
-
-import Input from "@material-ui/core/Input";
-
-import MaintainceAllocatedTable from './maintaince-trailers-table';
-import MaintainceToBeAllocatedTable from './maintaince-cranes-table';
-
-import LogisticsSTSCTable from './logistics-stsc-table';
-import LogisticsRMGCTable from './logistics-rmgc-table';
-import LogisticsRTGCTable from './logistics-rtgc-table';
-
-
 import Input from "@material-ui/core/Input";
 
 function TabContainer(props) {
@@ -211,14 +200,14 @@ class PortOperationsContent extends React.Component {
                 <SearchIcon />
               </Button>
             </div>
-              <AllocatedTable
+              {/* <AllocatedTable
                 title={
                   checkedFilters[checkedFilters.findIndex(this.handleGetTitleOfAllocatedTable)]
                 }
               />
               <CssBaseline />
               <Divider />
-              <ToBeAllocatedTable />
+              <ToBeAllocatedTable /> */}
               <YardSpaceTable 
                 checkedFilters={checkedFilters} 
                 handleSidebarFilterToggle={handleSidebarFilterToggle} />
@@ -242,35 +231,6 @@ class PortOperationsContent extends React.Component {
                   <SearchIcon />
                 </Button>
               </div>
-              <div className={classes.clearFix} />
-              {checkedFilters.indexOf('Ship to Shore Cranes') !== -1 && <LogisticsSTSCTable />}
-              {checkedFilters.indexOf('RTGC') !== -1 && <LogisticsRTGCTable />}
-              {checkedFilters.indexOf('RMGC') !== -1 && <LogisticsRMGCTable />}
-              {/* <CssBaseline /> */}
-              {/* <Divider /> */}
-              {/* {checkedFilters.indexOf('Logistic2') !== -1 && <ToBeAllocatedTable />} */}
-              {checkedFilters.indexOf('Trucks') !== -1 && <AllocatedTable />}
-              <CssBaseline />
-              <Divider />
-              {checkedFilters.indexOf('Cranes') !== -1 && <ToBeAllocatedTable />}
-              {/* {checkedFilters.indexOf('Allocated') !== -1 && <AllocatedTable />} */}
-              <AllocatedTable />
-            <div className={classes.searchWrapper}>
-              <Input
-                formControlProps={{
-                  className: classes.margin + " " + classes.search
-                }}
-                inputProps={{
-                  placeholder: "Search",
-                  inputProps: {
-                    "aria-label": "Search"
-                  }
-                }}
-              />
-              <Button color="white" aria-label="edit" justIcon round>
-                <SearchIcon />
-              </Button>
-            </div>
               <AllocatedTable
                 title={
                   checkedFilters[checkedFilters.findIndex(this.handleGetTitleOfAllocatedTable)]

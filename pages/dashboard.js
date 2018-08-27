@@ -155,19 +155,14 @@ class Dashboard extends React.Component {
       'Logistic1',
       'Logistic2',
       //maintaince
-<<<<<<< HEAD
       'Trucks', 
       'Cranes',
       //container yard space
-      'Level 1'
-    ],
-    checkedTabIndex: 0 // For side filter tabs in Transport
-=======
-      'Cranes', 
+      'Level 1',
       //logistics
       'Ship to Shore Cranes'
-    ]
->>>>>>> Add logistics screen
+    ],
+    checkedTabIndex: 0 // For side filter tabs in Transport
   };
 
   componentDidMount() {
@@ -211,7 +206,6 @@ class Dashboard extends React.Component {
     )
   }
 
-<<<<<<< HEAD
   containerYardSpaceFilterNode = () => {
   return (
     <React.Fragment>
@@ -238,7 +232,6 @@ class Dashboard extends React.Component {
     </React.Fragment>
   )
 }
-=======
   logisticsFilterNode = () => {
     return (
       <React.Fragment>
@@ -254,7 +247,6 @@ class Dashboard extends React.Component {
     )
   }
 
->>>>>>> Add logistics screen
   containerInformationSystemFilterNode = () => {
     const { checkedFilters } = this.state;
     return (

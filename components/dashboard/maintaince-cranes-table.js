@@ -20,9 +20,9 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 
 let counter = 0;
-function createData(craneNumber, manufacturer, craneType, maintainceTime, upTime, action, remarks) {
+function createData(craneNumber, manufacturer, craneType, maintainceTime, upTime, status, action, remarks) {
   counter += 1;
-  return { id: counter, craneNumber, manufacturer, craneType, maintainceTime, upTime, action, remarks };
+  return { id: counter, craneNumber, manufacturer, craneType, maintainceTime, upTime, status, action, remarks };
 }
 
 
@@ -45,7 +45,8 @@ const rows = [
   { id: 'Events', numeric: false, disablePadding: false, label: 'Manufacturer' },
   { id: '3', numeric: false, disablePadding: false, label: 'Type' },
   { id: '4', numeric: false, disablePadding: false, label: 'Est. maintaince time' },
-  { id: '6', numeric: false, disablePadding: false, label: 'Up time' },
+  { id: '6', numeric: false, disablePadding: false, label: 'Est. up time' },
+  { id: '9', numeric: false, disablePadding: false, label: 'Status' },
   { id: '5', numeric: false, disablePadding: false, label: 'Actions Required' },
   { id: '8', numeric: false, disablePadding: false, label: 'Remarks' },
 ];
@@ -195,12 +196,12 @@ class ToBeAllocatedTable extends React.Component {
     orderBy: 'name',
     selected: [],
     data: [
-      createData(1,2,3,4,5,6,7,8),
-      createData(1,2,3,4,5,6,7,8),
-      createData(1,2,3,4,5,6,7,8),
-      createData(1,2,3,4,5,6,7,8),
-      createData(1,2,3,4,5,6,7,8),
-      createData(1,2,3,4,5,6,7,8),
+      createData(1,2,3,4,5,6,7,8,9),
+      createData(1,2,3,4,5,6,7,8,9),
+      createData(1,2,3,4,5,6,7,8,9),
+      createData(1,2,3,4,5,6,7,8,9),
+      createData(1,2,3,4,5,6,7,8,9),
+      createData(1,2,3,4,5,6,7,8,9),
     ],
     page: 0,
     rowsPerPage: 5,
@@ -299,8 +300,9 @@ class ToBeAllocatedTable extends React.Component {
                       </TableCell>
                       <TableCell>{n.manufacturer}</TableCell>
                       <TableCell>{n.craneType}</TableCell>
-                      <TableCell>{n.maintainceTime}</TableCell>
-                      <TableCell>{n.upTime}</TableCell>
+                      <TableCell component="th">{n.maintainceTime}</TableCell>
+                      <TableCell component="th">{n.upTime}</TableCell>
+                      <TableCell>{n.status}</TableCell>
                       <TableCell>{n.action}</TableCell>
                       <TableCell>{n.remarks}</TableCell>
                     </TableRow>
@@ -314,7 +316,7 @@ class ToBeAllocatedTable extends React.Component {
             </TableBody>
           </Table>
         </div>
-        {/* <TablePagination
+        <TablePagination
           component="div"
           count={data.length}
           rowsPerPage={rowsPerPage}
@@ -327,7 +329,7 @@ class ToBeAllocatedTable extends React.Component {
           }}
           onChangePage={this.handleChangePage}
           onChangeRowsPerPage={this.handleChangeRowsPerPage}
-        /> */}
+        />
       </Paper>
     );
   }

@@ -20,11 +20,10 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 
 let counter = 0;
-function createData(craneNumber, manufacturer, craneType, maintainceTime, upTime, action, remarks) {
+function createData(crane, currentPosition, scheduledMaintenance, currentStatus, action, remarks) {
   counter += 1;
-  return { id: counter, craneNumber, manufacturer, craneType, maintainceTime, upTime, action, remarks };
+  return { id: counter, crane, currentPosition, scheduledMaintenance, currentStatus, action, remarks };
 }
-
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -41,13 +40,12 @@ function getSorting(order, orderBy) {
 }
 
 const rows = [
-  { id: 'time stamp', numeric: false, disablePadding: false, label: 'Trailer number' },
-  { id: 'Events', numeric: false, disablePadding: false, label: 'Manufacturer' },
-  { id: '3', numeric: false, disablePadding: false, label: 'Type' },
-  { id: '4', numeric: false, disablePadding: false, label: 'Est. maintaince time' },
-  { id: '6', numeric: false, disablePadding: false, label: 'Est. up time' },
-  { id: '5', numeric: false, disablePadding: false, label: 'Actions Required' },
-  { id: '8', numeric: false, disablePadding: false, label: 'Remarks' },
+  { id: '2', numeric: false, disablePadding: false, label: 'Crane' },
+  { id: '3', numeric: false, disablePadding: false, label: 'Current Position' },
+  { id: '6', numeric: false, disablePadding: false, label: 'Scheduled Maintenance' },
+  { id: '5', numeric: false, disablePadding: false, label: 'Current status' },
+  { id: '8', numeric: false, disablePadding: false, label: 'Action' },
+  { id: '9', numeric: false, disablePadding: false, label: 'Remarks' },
 ];
 
 class EventsTableHead extends React.Component {
@@ -67,7 +65,7 @@ class EventsTableHead extends React.Component {
               checked={numSelected === rowCount}
               onChange={onSelectAllClick}
             /> */}
-            Trailer ID
+            Serial number
           </TableCell>
           {rows.map(row => {
             return (
@@ -152,7 +150,7 @@ let EventsTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="title" id="tableTitle">
-            Trailers
+            RAIL Mounted Grantry Cranes (RMGC)
           </Typography>
         )}
       </div>
@@ -180,7 +178,7 @@ EventsTableToolbar = withStyles(toolbarStyles)(EventsTableToolbar);
 const styles = theme => ({
   root: {
     width: '100%',
-    // marginTop: 24
+    marginTop: 24
   },
   table: {
     minWidth: 400,
@@ -196,12 +194,14 @@ class ToBeAllocatedTable extends React.Component {
     orderBy: 'name',
     selected: [],
     data: [
-      createData(8,7,6,5,4,3,2,1),
-      createData(8,7,6,5,4,3,2,1),
-      createData(8,7,6,5,4,3,2,1),
-      createData(8,7,6,5,4,3,2,1),
-      createData(8,7,6,5,4,3,2,1),
-      createData(8,7,6,5,4,3,2,1),
+      createData(1,2,3,4,5,6,7,8),
+      createData(1,2,3,4,5,6,7,8),
+      createData(1,2,3,4,5,6,7,8),
+      createData(1,2,3,4,5,6,7,8),
+      createData(1,2,3,4,5,6,7,8),
+      createData(1,2,3,4,5,6,7,8),
+      createData(1,2,3,4,5,6,7,8),
+      createData(1,2,3,4,5,6,7,8),
     ],
     page: 0,
     rowsPerPage: 5,
@@ -296,12 +296,11 @@ class ToBeAllocatedTable extends React.Component {
                         {n.id}
                       </TableCell>
                       <TableCell component="th" scope="row">
-                        {n.craneNumber}
+                        {n.crane}
                       </TableCell>
-                      <TableCell>{n.manufacturer}</TableCell>
-                      <TableCell>{n.craneType}</TableCell>
-                      <TableCell>{n.maintainceTime}</TableCell>
-                      <TableCell>{n.upTime}</TableCell>
+                      <TableCell>{n.currentPosition}</TableCell>
+                      <TableCell>{n.scheduledMaintenance}</TableCell>
+                      <TableCell>{n.currentStatus}</TableCell>
                       <TableCell>{n.action}</TableCell>
                       <TableCell>{n.remarks}</TableCell>
                     </TableRow>
@@ -315,7 +314,7 @@ class ToBeAllocatedTable extends React.Component {
             </TableBody>
           </Table>
         </div>
-        {/* <TablePagination
+        <TablePagination
           component="div"
           count={data.length}
           rowsPerPage={rowsPerPage}
@@ -328,7 +327,7 @@ class ToBeAllocatedTable extends React.Component {
           }}
           onChangePage={this.handleChangePage}
           onChangeRowsPerPage={this.handleChangeRowsPerPage}
-        /> */}
+        />
       </Paper>
     );
   }

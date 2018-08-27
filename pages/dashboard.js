@@ -151,6 +151,8 @@ class Dashboard extends React.Component {
       'Logistic2',
       //maintaince
       'Cranes', 
+      //logistics
+      'Ship to Shore Cranes'
     ]
   };
 
@@ -191,6 +193,21 @@ class Dashboard extends React.Component {
         <List>{<MainListItems checkedFilters={this.state.checkedFilters} handleToggle={this.handleSidebarFilterToggle} icon={<VesselIcon />} title="VESSEL" options={[7, 8]} />}</List>
         <Divider />
         <List>{<MainListItems checkedFilters={this.state.checkedFilters} handleToggle={this.handleSidebarFilterToggle} icon={<RailIcon />} title="RAIL" options={[9, 10]} />}</List>
+      </React.Fragment>
+    )
+  }
+
+  logisticsFilterNode = () => {
+    return (
+      <React.Fragment>
+        <Divider />
+        <List>{<MainListItems open checkedFilters={this.state.checkedFilters} handleToggle={this.handleSidebarFilterToggle} icon={<CraneIcon />} title="CRANES" options={[
+          'Ship to Shore Cranes',
+          'RTGC',
+          'RMGC'
+        ]} />}</List>
+        <Divider />
+        <List>{<MainListItems open checkedFilters={this.state.checkedFilters} handleToggle={this.handleSidebarFilterToggle} icon={<TruckIcon />} title="ITVs" options={['Internal Transport Vehicle']} />}</List>
       </React.Fragment>
     )
   }
@@ -243,28 +260,6 @@ class Dashboard extends React.Component {
     )
   }
 
-
-  logisticsFilterNode = () => {
-    const { checkedFilters } = this.state;
-    return (
-      <React.Fragment>
-        <List>
-          {
-            <MainListItems
-              checkedFilters={this.state.checkedFilters}
-              icon={<FilterIcon />}
-              title="FILTER"
-              options={['Logistic1', 'Logistic2']}
-              checkAllFilters
-              open={true}
-              handleToggle={this.handleSidebarFilterToggle}
-            />
-          }
-        </List>
-      </React.Fragment>
-    )
-  }
-
   berthAllocationFilterNode = () => {
     const { checkedFilters } = this.state;
     return (
@@ -298,8 +293,23 @@ class Dashboard extends React.Component {
     let newChecked = [...checkedFilters];
 
     if (currentIndex === -1) {
-      if (currentSidebarFilter === 'berth_allocation') {
-        var valuesToRemove = ['JNPCT Main Berth', 'NSICT', 'NSIGT', 'APMT', 'BMCT'];
+      if (
+        currentSidebarFilter === 'berth_allocation' || 
+        currentSidebarFilter === 'maintenance' ||
+        currentSidebarFilter === 'logistics'
+      ) {
+        const valuesToRemove = [
+          'JNPCT Main Berth',
+          'NSICT',
+          'NSIGT',
+          'APMT',
+          'BMCT',
+          'Cranes',
+          'Trailers',
+          'Ship to Shore Cranes',
+          'RTGC',
+          'RMGC'
+        ];
         newChecked = newChecked.filter(val => !valuesToRemove.includes(val));
       }
       newChecked.push(value);
@@ -316,7 +326,6 @@ class Dashboard extends React.Component {
     switch (currentSidebarFilter) {
       case 'container_and_space_management':
         return this.mapOperationsFilterNode();
-        break;
       case 'berth_allocation':
         return this.berthAllocationFilterNode();
       case 'logistics':
@@ -326,7 +335,7 @@ class Dashboard extends React.Component {
       case 'container_information_system':
         return this.containerInformationSystemFilterNode();
       case 'map_operations':
-        return this.berthAllocationFilterNode();
+        return this.mapOperationsFilterNode();
       case 'port_operations':
         return this.berthAllocationFilterNode();
       case 'transport':

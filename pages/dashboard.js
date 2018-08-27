@@ -418,11 +418,7 @@ class Dashboard extends React.Component {
   getFilterNode = (currentSidebarFilter) => {
     switch (currentSidebarFilter) {
       case 'container_and_space_management':
-<<<<<<< HEAD
         return this.containerYardSpaceFilterNode();
-=======
-        return this.mapOperationsFilterNode();
->>>>>>> Add logistics screen
       case 'berth_allocation':
         return this.berthAllocationFilterNode();
       case 'logistics':

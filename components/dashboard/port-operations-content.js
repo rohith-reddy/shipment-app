@@ -210,7 +210,6 @@ class PortOperationsContent extends React.Component {
               <CssBaseline />
               <Divider />
               <ToBeAllocatedTable /> */}
-
               <YardSpaceTable 
                 checkedFilters={checkedFilters} 
                 handleSidebarFilterToggle={handleSidebarFilterToggle} />

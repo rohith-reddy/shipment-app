@@ -524,7 +524,7 @@ class Dashboard extends React.Component {
                 }
                 onClick={() => this.setState({
                   selectedTab: 'port_operations',
-                  currentSidebarFilter: 'port_operations' 
+                  currentSidebarFilter: 'container_and_space_management' 
               })}
               >
                 PORT OPERATIONS

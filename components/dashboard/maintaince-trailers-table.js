@@ -40,7 +40,6 @@ function getSorting(order, orderBy) {
 const rows = [
   { id: 'time stamp', numeric: false, disablePadding: false, label: 'Trailer number' },
   { id: 'Events', numeric: false, disablePadding: false, label: 'Manufacturer' },
-  { id: '3', numeric: false, disablePadding: false, label: 'Type' },
   { id: '4', numeric: false, disablePadding: false, label: 'Est. maintaince time' },
   { id: '5', numeric: false, disablePadding: false, label: 'Est. up time' },
   { id: '6', numeric: false, disablePadding: false, label: 'Status' },
@@ -300,7 +299,6 @@ class ToBeAllocatedTable extends React.Component {
                         {n.trailer_no}
                       </TableCell>
                       <TableCell>{n.manufacturer}</TableCell>
-                      <TableCell>{n.trailer_type}</TableCell>
                       <TableCell>{n.est_maintenance_time}</TableCell>
                       <TableCell>{n.est_up_time}</TableCell>
                       <TableCell>{n.status}</TableCell>

@@ -206,10 +206,10 @@ class RakeAllocation extends React.Component {
   componentDidMount = () => {
     const hostAddress = host.Address || '104.211.96.209:4000';
     let data;
-    axios.get(`http://${hostAddress}/api/rake_allocations`)
+    axios.get(`http://${hostAddress}/api/rake_allocation_news`)
       .then(response => {
         console.log(response.data);
-        data = response.data.filter(dataItem => dataItem.train_number == this.state.dropdownValue);
+        data = response.data.filter(dataItem => dataItem.train_no == this.state.dropdownValue);
         this.setState({ totalData: response.data, data });
       })
       .catch(error => {
@@ -268,7 +268,7 @@ class RakeAllocation extends React.Component {
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
   dropdownChange = event => {
-    const data = this.state.totalData.filter(dataItem => dataItem.train_number == event.target.value);
+    const data = this.state.totalData.filter(dataItem => dataItem.train_no == event.target.value);
     this.setState({ dropdownValue: event.target.value, data });
   }
 
@@ -314,11 +314,11 @@ class RakeAllocation extends React.Component {
                         selected={isSelected}
                       >
                         <TableCell component="th" scope="row">
-                          {n.rake_number}
+                          {n.rake_no}
                         </TableCell>
-                        <TableCell numeric>{n.container_number}</TableCell>
+                        <TableCell numeric>{n.container_no}</TableCell>
                         <TableCell numeric>{n.consignment_id}</TableCell>
-                        <TableCell numeric>{n.vessel_number}</TableCell>
+                        <TableCell numeric>{n.vessle_no}</TableCell>
                         <TableCell numeric>{n.weight}</TableCell>
                         <TableCell numeric>{n.size}</TableCell>
                         <TableCell numeric>{n.loading_time}</TableCell>

@@ -297,7 +297,7 @@ class ToBeAllocatedTable extends React.Component {
                         {n.sr_no}
                       </TableCell>
                       <TableCell component="th" scope="row">
-                        {n.crane_no}
+                        {n.crane}
                       </TableCell>
                       <TableCell>{n.manufacturer}</TableCell>
                       <TableCell>{n.type}</TableCell>

@@ -198,7 +198,7 @@ class RakeAllocation extends React.Component {
     selected: [],
     data: [],
     page: 0,
-    rowsPerPage: 30,
+    rowsPerPage: 10,
     dropdownValue: "11018",
     totalData: []
   };

@@ -293,7 +293,7 @@ class ToBeAllocatedTable extends React.Component {
                     >
                       <TableCell>
                         {/* <Checkbox checked={isSelected} /> */}
-                        {n.sr_no}
+                        {n.trailer_id}
                       </TableCell>
                       <TableCell component="th" scope="row">
                         {n.trailer_no}

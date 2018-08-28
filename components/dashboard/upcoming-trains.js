@@ -20,7 +20,7 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import axios from 'axios';
 
-import hostAddress from '../../constants/urlConstants';
+import host from '../../constants/urlConstants';
 
 
 function desc(a, b, orderBy) {
@@ -194,7 +194,7 @@ class UpcomingTrains extends React.Component {
   };
 
   componentDidMount = () => {
-    const hostAddress = hostAddress || '104.211.96.209:4000';
+    const hostAddress = host.Address || '104.211.96.209:4000';
     axios.get(`http://${hostAddress}/api/upcoming_trains`)
       .then(response => {
         console.log(response.data);

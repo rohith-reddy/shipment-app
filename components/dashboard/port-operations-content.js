@@ -28,6 +28,7 @@ import MaintainceToBeAllocatedTable from './maintaince-cranes-table';
 import LogisticsSTSCTable from './logistics-stsc-table';
 import LogisticsRMGCTable from './logistics-rmgc-table';
 import LogisticsRTGCTable from './logistics-rtgc-table';
+import LogisticsITVTable from './logistics-itv-table';
 
 import Input from "@material-ui/core/Input";
 
@@ -74,7 +75,7 @@ const styles = theme => ({
   margin: {
     zIndex: "4",
     margin: "0"
-  },  
+  },
   search: {
     "& > div": {
       marginTop: "0"
@@ -181,7 +182,7 @@ class PortOperationsContent extends React.Component {
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          
+
           <TabContainer dir={theme.direction}>
             <React.Fragment>
             <div className={classes.searchWrapper}>
@@ -200,8 +201,8 @@ class PortOperationsContent extends React.Component {
                 <SearchIcon />
               </Button>
             </div>
-              <YardSpaceTable 
-                checkedFilters={checkedFilters} 
+              <YardSpaceTable
+                checkedFilters={checkedFilters}
                 handleSidebarFilterToggle={handleSidebarFilterToggle} />
             </React.Fragment>
           </TabContainer>
@@ -255,6 +256,7 @@ class PortOperationsContent extends React.Component {
               {checkedFilters.indexOf('Ship to Shore Cranes') !== -1 && <LogisticsSTSCTable />}
               {checkedFilters.indexOf('RTGC') !== -1 && <LogisticsRTGCTable />}
               {checkedFilters.indexOf('RMGC') !== -1 && <LogisticsRMGCTable />}
+              {checkedFilters.indexOf('Internal Transport Vehicle') !== -1 && <LogisticsITVTable />}
               {/* <CssBaseline /> */}
               {/* <Divider /> */}
               {/* {checkedFilters.indexOf('Logistic2') !== -1 && <ToBeAllocatedTable />} */}

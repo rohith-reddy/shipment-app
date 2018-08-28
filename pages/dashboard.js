@@ -448,7 +448,8 @@ class Dashboard extends React.Component {
             valuesToRemove = [
               'Ship to Shore Cranes',
               'RTGC',
-              'RMGC',
+              'RMGC',,
+              'Internal Transport Vehicle'
             ];
             break;
           case 'container_and_space_management':

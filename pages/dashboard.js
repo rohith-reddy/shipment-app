@@ -152,19 +152,19 @@ class Dashboard extends React.Component {
       //berth allocation
       'Allocated',
       'To be allocated',
-      //container yard 
-      'JNPCT Main Berth', 
+      //container yard
+      'JNPCT Main Berth',
       'Allocated',
       'To be allocated',
-      //container yard 
-      'JNPCT Main Berth', 
+      //container yard
+      'JNPCT Main Berth',
       //logistics
       'Logistic1',
       'Logistic2',
       //container yard space
       'Level 1',
       //maintaince
-      'Cranes', 
+      'Cranes',
       //logistics
       'Ship to Shore Cranes'
     ],
@@ -335,7 +335,7 @@ class Dashboard extends React.Component {
       </React.Fragment>
     )
   }
-  
+
   berthAllocationFilterNode = () => {
     const { checkedFilters } = this.state;
     return (
@@ -356,7 +356,7 @@ class Dashboard extends React.Component {
       </React.Fragment>
     )
   }
-  
+
   maintenanceFilterNode = () => {
     const { checkedFilters } = this.state;
     return (
@@ -421,8 +421,8 @@ class Dashboard extends React.Component {
 
     if (currentIndex === -1) {
       if (
-        currentSidebarFilter === 'container_and_space_management' || 
-        currentSidebarFilter === 'berth_allocation' || 
+        currentSidebarFilter === 'container_and_space_management' ||
+        currentSidebarFilter === 'berth_allocation' ||
         currentSidebarFilter === 'maintenance' ||
         currentSidebarFilter === 'logistics'
       ) {
@@ -450,13 +450,13 @@ class Dashboard extends React.Component {
               'RTGC',
               'RMGC',
             ];
-            break; 
+            break;
           case 'container_and_space_management':
             valuesToRemove = [
               'Level 1',
-              'Level 2', 
-              'Level 3', 
-              'Level 4', 
+              'Level 2',
+              'Level 3',
+              'Level 4',
               'Level 5'
             ];
             break;
@@ -518,13 +518,13 @@ class Dashboard extends React.Component {
         content = <MapOperations />;
         break;
       case 'port_operations':
-        content = <PortOperationsContent 
-                    checkedFilters={checkedFilters} 
-                    handleSidebarFilterChange={this.handleSidebarFilterChange} 
+        content = <PortOperationsContent
+                    checkedFilters={checkedFilters}
+                    handleSidebarFilterChange={this.handleSidebarFilterChange}
                     handleSidebarFilterToggle={this.handleSidebarFilterToggle} />;
         break;
       case 'transport':
-        content = <TransportContent 
+        content = <TransportContent
                     checkedTabIndex={this.state.checkedTabIndex}
                   />;
         break;
@@ -550,6 +550,9 @@ class Dashboard extends React.Component {
               >
                 <MenuIcon />
               </IconButton>
+              <div style={{width: '8%', margin: '0 1% 0 0'}}>
+                <img style={{maxWidth: '100%', maxHeight: '100%'}} src="https://www.jagranimages.com/images/10_12_2017-jnpt-sez.jpg" />
+              </div>
               <Typography variant="title" color="inherit" noWrap className={classes.title}>
                 Dashboard
               </Typography>
@@ -560,9 +563,9 @@ class Dashboard extends React.Component {
                     selectedTab === 'container_information_system' && classes.selectedTab || ''
                   )
                 }
-                onClick={() => this.setState({ 
+                onClick={() => this.setState({
                   selectedTab: 'container_information_system',
-                  currentSidebarFilter: 'container_information_system' 
+                  currentSidebarFilter: 'container_information_system'
                 })}
               >
                 CONTAINER INFORMATION SYSTEM
@@ -572,9 +575,9 @@ class Dashboard extends React.Component {
                 className={
                   selectedTab === 'map_operations' && classes.selectedTab || ''
                 }
-                onClick={() => this.setState({ 
+                onClick={() => this.setState({
                   selectedTab: 'map_operations',
-                  currentSidebarFilter: 'map_operations' 
+                  currentSidebarFilter: 'map_operations'
                 })}
               >
                 MAP OPERATIONS
@@ -586,7 +589,7 @@ class Dashboard extends React.Component {
                 }
                 onClick={() => this.setState({
                   selectedTab: 'port_operations',
-                  currentSidebarFilter: 'container_and_space_management' 
+                  currentSidebarFilter: 'container_and_space_management'
               })}
               >
                 PORT OPERATIONS
@@ -598,7 +601,7 @@ class Dashboard extends React.Component {
                 }
                 onClick={() => this.setState({
                   selectedTab: 'transport',
-                  currentSidebarFilter: 'transport' 
+                  currentSidebarFilter: 'transport'
                 })}
               >
                 TRANSPORT

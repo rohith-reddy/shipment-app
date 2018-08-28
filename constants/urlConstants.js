@@ -1,3 +1,3 @@
-const hostAddress = "104.211.96.209:4000";
+const hostAddress = "52.172.133.188:4000";
 
 export default hostAddress;

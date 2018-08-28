@@ -198,7 +198,7 @@ class ToBeAllocatedTable extends React.Component {
 
   componentDidMount = () => {
     const hostAddress = host.Address || '104.211.96.209:4000';
-    axios.get(`http://${hostAddress}/api/maintenance_cranes`)
+    axios.get(`http://${hostAddress}/api/maintenance_cranes_updateds`)
       .then(response => {
         console.log(response.data);
         this.setState({ data: response.data });

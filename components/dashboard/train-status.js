@@ -202,7 +202,7 @@ class TrainStatus extends React.Component {
 
   componentDidMount = () => {
     const hostAddress = host.Address || '104.211.96.209:4000';
-    axios.get(`http://${hostAddress}/api/current_train_statuses`)
+    axios.get(`http://${hostAddress}/api/current_train_status_updateds`)
       .then(response => {
         console.log(response.data);
         this.setState({ data: response.data });
